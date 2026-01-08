@@ -30,7 +30,10 @@ Havent decided if this can be done by Members or have some request system for ne
 Charge fines if book is past due and have different fines for age (lower for kids and elders)
 #### 4.6.2 Limit Members with Outstanding Fines
 Don't allow members with fines to reserve new books or issue renewals for the book they are being fined for
-## 5. Maintaining Circulation Records and Statistics
+### 4.7 Book Requests
+Allow members to request for new books and track which books are requested the most
+Don't allow members to spam requests
+## 5. Track Circulation Statistics
 ### 5.1 Track Membership Trends
 #### 5.1.1 Track Age of Members
 #### 5.1.2 Track Age of Enrollment
@@ -40,9 +43,14 @@ Don't allow members with fines to reserve new books or issue renewals for the bo
 #### 5.2.3 Track Popular Subjects
 ## 6. Remove Members
 Remove members after years of inactivity
-## 7. Book Requests
-Allow members to request for new books and track which books are requested the most
-### 7.1 Limit Book Requests
-Don't allow members to spam requests
-# Resources
+## 7. Search and Filter Inventory
+### 7.1 Propper Tagging of Inventory
+Each item must have corrent tags to enable searchability
+## Resources
 https://lis.academy/management-of-library-and-information-centre/library-circulation-manage-borrowing-returns/
+# Nonfunctional Requirements
+## 1. Security and Data Protection
+## 2. Concurrency
+Prevent concurrent bookings
+## 3. Error Handling and Failover Support
+## 4. Scalability
