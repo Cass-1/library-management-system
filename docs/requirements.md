@@ -41,7 +41,7 @@ Don't allow members to spam requests
 #### 5.2.1 Track Popular Authors
 #### 5.2.2 Track Popular Genres
 #### 5.2.3 Track Popular Subjects
-## 6. Remove Members
+## 6. Remove Members 
 Remove members after years of inactivity
 ## 7. Search and Filter Inventory
 ### 7.1 Propper Tagging of Inventory
