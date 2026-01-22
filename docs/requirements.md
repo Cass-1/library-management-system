@@ -12,6 +12,10 @@ Can access statistics
 ### 2.4 Admin
 Not sure about yet
 ## 3. Charge and Discharge Books
+Figure out how to use DRM or another method to manage the distribued eBooks
+- i will use public domain works
+    - double check that it is legal to host and distribute public domain works
+    - double check that it is legal to use DRM with public domain works
 ### 3.1 Mark Books Charged
 ### 3.2 Mark Books Discharged
 ## 4. Control Methods for Circulation
@@ -46,11 +50,27 @@ Remove members after years of inactivity
 ## 7. Search and Filter Inventory
 ### 7.1 Propper Tagging of Inventory
 Each item must have corrent tags to enable searchability
+## 8. EBook Reading
+- have a user specific page that allows them to 
+    1. view all checked out eBooks
+    2. be able to read checked out eBooks
+## 9. Add/Remove Books
+Be able to add or remove books to the catalouge
 ## Resources
 https://lis.academy/management-of-library-and-information-centre/library-circulation-manage-borrowing-returns/
 # Nonfunctional Requirements
 ## 1. Security and Data Protection
+- protect env variables with infisical
+- keep information about users on a need to know basis
+    - eg a users address or email may not need to be displayed to workers
+- do some research on data security and mongoDB
 ## 2. Concurrency
 Prevent concurrent bookings
+- use mongoDB transactions so ACID is followed
 ## 3. Error Handling and Failover Support
+- have robust test cases in order to test both
 ## 4. Scalability
+- NoSQL
+- design the database with scalability in mind
+    - avoid common antipatterns (eg unbounded array)
+- need to determine if i can store eBooks in MongoDB or if I need an alternate solution
