@@ -1,39 +1,18 @@
-const express = require('express')
-const { InfisicalSDK } = require('@infisical/sdk')
+import db from "./db/conn.mjs"
+import express from 'express'
+
 const app = express()
-const port = 3000
-
-const setupClient = async () => {
-    const infisicalSdk = new InfisicalSDK();
-    await infisicalSdk.auth().universalAuth.login({
-        clientId: process.env.INFISICAL_MACHINE_IDENTITY_CLIENT_ID,
-        clientSecret: process.env.INFISICAL_MACHINE_IDENTITY_CLIENT_SECRET
-    });
-
-    return infisicalSdk;
-}
-let infisicalClient;
-(async () => {
-    try {
-        infisicalClient = await setupClient();
-    }
-    catch (err) {
-        console.log(err);
-    }
-    console.log("success in getting infisical client");
-})();
-
+//TODO: need to change this so that infisical can handle it
+const PORT = 3000;
 
 app.get("/", async (req, res) => {
 
-    const allSecrets = await infisicalClient.secrets().listSecrets({
-        environment: process.env.INFISICAL_PROJECT_ENVIRONMENT,
-        projectId: process.env.INFISICAL_PROJECT_ID
-    });
+    const col = await db.collection("test");
+    const result = await col.find({}).toArray();
 
-    res.send(`Hello! My name is: ` + JSON.stringify(allSecrets));
+    res.send(result).status(200);
 })
 
-app.listen(port, () => {
-    console.log(`app listening on port ${port}`)
+app.listen(PORT, () => {
+    console.log(`app listening on port ${PORT}`)
 })
