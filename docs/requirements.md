@@ -24,7 +24,7 @@ Add/remove staff, add/remove books,
 
 #### 2.4 Admin
 
-Can manage Managers
+Can add/remove Managers
 
 ### 3. Charge and Discharge Books
 
@@ -79,21 +79,21 @@ Don't allow members to spam requests
 
 #### 5.1 Track Membership Trends
 
-##### 5.1.1 Track Age of Members
+##### 5.1.1 Track Membership Analytics
 
-##### 5.1.2 Track Age of Enrollment
+- age of members
+- age of enrollment
 
-#### 5.2 Track Borrowing Trends
+##### 5.1.2 Track Borrowing Trends
 
-##### 5.2.1 Track Popular Authors
+- popular authors
+- popular genres
+- popular subjects
+- popular books
 
-##### 5.2.2 Track Popular Genres
+### 6. Remove Users
 
-##### 5.2.3 Track Popular Subjects
-
-### 6. Remove Members
-
-Remove members after years of inactivity
+Be able to remove any user other than admins with the permission to remove a user handled by the user above them with more authority.
 
 ### 7. Search and Filter Inventory
 
@@ -121,7 +121,7 @@ Be able to add or remove books to the catalogue
 
 - protect env variables with infisical
 - keep information about users on a need to know basis
-  - eg a users address or email may not need to be displayed to workers
+  - eg a users address or email may not need to be displayed to staff members
 - do some research on data security and mongoDB
 
 ### 2. Concurrency
