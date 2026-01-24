@@ -5,12 +5,12 @@
 ## 2. User Authorization (RBAC)
 ### 2.1 Members
 Can access reservations and renewals
-### 2.2 Workers
-Can access recalls, returns, and manage inter-library loans
-### 2.3 Managers
-Can access statistics
+### 2.2 Staff
+Can access recalls, returns, manage inter-library loans
+### 2.3 Library Managers
+Add/remove staff, add/remove books, 
 ### 2.4 Admin
-Not sure about yet
+Can manage Managers
 ## 3. Charge and Discharge Books
 Figure out how to use DRM or another method to manage the distribued eBooks
 - i will use public domain works
@@ -37,7 +37,7 @@ Don't allow members with fines to reserve new books or issue renewals for the bo
 ### 4.7 Book Requests
 Allow members to request for new books and track which books are requested the most
 Don't allow members to spam requests
-## 5. Track Circulation Statistics
+## 5. Circulation Analytics
 ### 5.1 Track Membership Trends
 #### 5.1.1 Track Age of Members
 #### 5.1.2 Track Age of Enrollment
