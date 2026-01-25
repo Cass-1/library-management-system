@@ -1,15 +1,7 @@
 # Breadcrumb
 
-continue the schema design
+so the question is is this a write heavy or read heavy workload. bc if it is read heavy it may make more sense to have both books and users have embedded requests as well as a seperate request collection. Especially since users are limited on the number of requests they can have. However, a book can have unlimited requests. So maybe a book just has a next time available date. How will i handle someone cancelling their reservation
 
-im not sure if requests are an entity. bc they may just be transient, but they will be processed using a queue. So maybe it is instead just data that will be sent and will be processed into a get or post request (eg get a book). but im not sure tbh
+so yes to embedding in users? if a user makes a reservation request will they check it at least once. If they check it more than once there will be more reads than writes for every request. but if any person cancels their reseration requests i have to go to all users that are in the line and update their request lists
 
-maybe use a computed pattern for a user's total fines?
-
-- i think this is a bad idea bc fines change daily? but i guess you could compute at midnight
-
-Also it is ok for my schema design to not be the best of the bat since it is the first time i am designing one in a while
-
-I want to think over the schema for a while before searching the internet to see if i can find some example of a NoSQL library management system
-
-you know maybe new-book-requests would be their own entity bc those would stick around. then every night you could count up the recommendations? not sure
+my brain is starting to melt thinking abt this database stuff, i can feel myself getting less sharp. i think i need to take a break and work on soomething that is less brainpower. I'm thinking working on the setting up login and user verification tasks. as well as choosing a react library to use.

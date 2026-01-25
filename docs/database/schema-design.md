@@ -4,12 +4,14 @@
 
 ### Entities
 
-| Entity  | Description                                   | Child Entities                               |
-|---------|-----------------------------------------------|----------------------------------------------|
-| Book    | A representation of a book                    | print, ebook                                 |
-| User    | Describes a user of the system                | member, staff member, library manager, admin |
-| Request | Describes a request for a book made by a user | reservation, renewal                         |
-| Fine    | Describes a fine that a user has for a book   |                                              |
+#### Overview Table
+
+| Entity  | Description                                   | Child Entities                               | Attributes                                                         |
+|---------|-----------------------------------------------|----------------------------------------------|--------------------------------------------------------------------|
+| Book    | A representation of a book                    | print, ebook                                 | ibsn, author, genre, type, publisher, condition                    |
+| User    | Describes a user of the system                | member, staff member, library manager, admin | name, role, email, fines, age, enrollment_date, book_ids           |
+| Request | Describes a request for a book made by a user | reservation, renewal                         | type, book_id, user_id, request_date, requested_reservation_time   |
+| Fine    | Describes a fine that a user has for a book   |                                              | book_id, overdue_date, book_metadata, fine_rate, current_fine_cost |
 
 ### Reads and Writes
 
@@ -52,7 +54,7 @@
 
 | Entity(s) | Pattern     | Reasoning                                                                                                         |
 |-----------|-------------|-------------------------------------------------------------------------------------------------------------------|
-| User      | Inheritance | There will be different types of users so I will have a type field to differentiate between them                  |
+| User      | Inheritance | There will be different types of users so I will have a role field to differentiate between them                  |
 | Request   | Inheritance | There will be two types of requests (reservation, renewal). I will use a type field to differentiate between them |
 | Book      | Inheritance | There will be two types of books (print and eBook). I will use a type field to differentiate between the two      |
 
