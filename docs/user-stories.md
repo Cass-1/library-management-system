@@ -18,6 +18,8 @@
 
 **As a member** I want to be able to reserve books to that they will be auto-checked out when the book is next available.
 
+**As a member** I want to be able to cancel a book reservation that I have previously made.
+
 **As a staff member** I want to be able to cancel member reservations so that books can be recalled.
 
 ## Recalls
