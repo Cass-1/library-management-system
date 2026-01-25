@@ -6,7 +6,7 @@
 
 | Entity  | Description                                   | Child Entities                               |
 |---------|-----------------------------------------------|----------------------------------------------|
-| Book    | A representation of a book                    |                                              |
+| Book    | A representation of a book                    | print, ebook                                 |
 | User    | Describes a user of the system                | member, staff member, library manager, admin |
 | Request | Describes a request for a book made by a user | reservation, renewal                         |
 | Fine    | Describes a fine that a user has for a book   |                                              |
@@ -42,11 +42,19 @@
 
 ## Design Patterns
 
+### Preventing Unbounded Arrays
+
 - Limit of 20 books per user
 - Limit of 5 of each request type per user?
 - As a user can only have 20 books per user a user can never have more than 20 fines
 
-I think outlier pattern for reservations? I think there will be a few books with lots of reservations
+### Patterns Table
+
+| Entity(s) | Pattern     | Reasoning                                                                                                         |
+|-----------|-------------|-------------------------------------------------------------------------------------------------------------------|
+| User      | Inheritance | There will be different types of users so I will have a type field to differentiate between them                  |
+| Request   | Inheritance | There will be two types of requests (reservation, renewal). I will use a type field to differentiate between them |
+| Book      | Inheritance | There will be two types of books (print and eBook). I will use a type field to differentiate between the two      |
 
 ## Resources Used
 
