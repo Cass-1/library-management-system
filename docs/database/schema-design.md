@@ -14,8 +14,8 @@
 | type                 | enum (print or eBook)              |                                    |
 | publisher            | string                             |                                    |
 | condition            | enum (good, medium, bad, very bad) |                                    |
-| active_reservation   | reservation                        | The active reservation             |
-| pending_reservations | reservation[]                      | A list of the pending reservations |
+| sc_id                | string                             |   format <book_id/reservation_id>  |
+| available            | boolean                            |                                    |
 
 #### User
 
@@ -36,16 +36,17 @@
 |------------|----------|-----------------------------------------------------------------------------|
 | total_cost | double   |                                                                             |
 | daily_rate | double   | The cost per day. This is so that fines can be at different rates if needed |
-| book       | book _id |                                                                             |
+| book_id    | book _id |                                                                             |
 
 #### Reservation
 
-| Attribute            | Type | Reasoning/Description (if needed) |
-|----------------------|------|-----------------------------------|
-| book_id              | _id  |                                   |
-| user_id              | _id  |                                   |
-| request_date         | date |                                   |
-| reservation_end_date | date |                                   |
+| Attribute            | Type   | Reasoning/Description (if needed) |
+|----------------------|--------|-----------------------------------|
+| user_id              | _id    |                                   |
+| request_date         | date   |                                   |
+| reservation_end_date | date   |                                   |
+| sc_id                | string | format <book_id/reservation_id>   |
+| active               | boolean|                                   |
 
 ### Reads and Writes
 
@@ -89,25 +90,28 @@
 
 ### Patterns Table
 
-| Entity(s) | Pattern     | Reasoning                                                                                                         |
-|-----------|-------------|-------------------------------------------------------------------------------------------------------------------|
-| User      | Inheritance | There will be different types of users so I will have a role field to differentiate between them                  |
-| Book      | Inheritance | There will be two types of books (print and eBook). I will use a type field to differentiate between the two      |
+| Entity(s)         | Pattern           | Reasoning                                                                                                                                                                                                               |
+|-------------------|-------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| User              | Inheritance       | There will be different types of users so I will have a role field to differentiate between them                                                                                                                        |
+| Book              | Inheritance       | There will be two types of books (print and eBook). I will use a type field to differentiate between the two                                                                                                            |
+| Book, Reservation | Single Collection | There will be one collection for both books and reservations. There will be a overloaded id called sc_id which will be a string that has the syntax "<book_id>/<review_id>" for books the review_id field will be empty |
 
 ## Notes
 
 User - To store all the user information
 
-reservation - I need a separate reservation collection because I need to go through all active reservations.
-
 Book - To store all the book information
 
 nightly
 
-- look up all books with active reservations
-- check if reservation has expired
-  - if so, set the active reservation to the next pending reservation
-    - notify the user
+- look up all books that are not available
+- check if active reservation has expired
+  - if so
+    - use $pull to remove that reservation from the user's reservation list
+    - and add that book to the user
+    - if there is at least one more pending reservation
+      - set the next reservation to active
+    - if not, set the book to available
   - if not, do nothing
 
 ## Resources Used
