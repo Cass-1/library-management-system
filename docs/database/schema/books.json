@@ -1,0 +1,92 @@
+{
+    "$jsonSchema": {
+        "title": "Library.books",
+        "oneOf": [
+            {
+                "bsonType": "object",
+                "description": "a book object",
+                "required": [
+                    "isbn",
+                    "author",
+                    "genre",
+                    "format",
+                    "publisher",
+                    "sc_id",
+                    "available"
+                ],
+                "properties": {
+                    "isbn": {
+                        "bsonType": "string",
+                        "description": "the book's isbn number"
+                    },
+                    "author": {
+                        "bsonType": "string"
+                    },
+                    "genre": {
+                        "bsonType": "string"
+                    },
+                    "format": {
+                        "enum": [
+                            "print",
+                            "ebook"
+                        ],
+                        "description": "the medium of the book"
+                    },
+                    "publisher": {
+                        "bsonType": "string",
+                        "description": "the b"
+                    },
+                    "condition": {
+                        "bsonType": "",
+                        "description": "the condition of the book based on physical wear-and-tear on the book. This is optional because eBooks do not have a physical condition"
+                    },
+                    "sc_id": {
+                        "bsonType": "string",
+                        "format": "^[^/]+",
+                        "description": "used to differentiate books and reservations. books have the format <book_id> whereas reservations have the format <book_id>/<reservation_id>"
+                    },
+                    "available": {
+                        "bsonType": "boolean",
+                        "description": "true if the book has no reservation or pending reservations"
+                    }
+                }
+            },
+            {
+                "bsonType": "object",
+                "description": "a request object",
+                "required": [
+                    "user_id",
+                    "request_date",
+                    "reservation_end_date",
+                    "sc_id",
+                    "active"
+                ],
+                "properties": {
+                    "user_id": {
+                        "bsonType": "string",
+                        "description": "the id of the user that made the reservation"
+                    },
+                    "request_date": {
+                        "bsonType": "string",
+                        "format": "date",
+                        "description": "the date the request was made"
+                    },
+                    "reservation_end_date": {
+                        "bsonType": "string",
+                        "format": "date",
+                        "description": "the date the reservation ends on"
+                    },
+                    "sc_id": {
+                        "bsonType": "string",
+                        "format": "^[^/]+/[^/]+$",
+                        "description": "used to differentiate books and reservations. books have the format <book_id> whereas reservations have the format <book_id>/<reservation_id>"
+                    },
+                    "active": {
+                        "bsonType": "boolean",
+                        "description": "if the reservation is currently active i.e. the book is currently checked out as requested"
+                    }
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,85 @@
+{
+    "$jsonSchema": {
+        "title": "Library.users",
+        "bsonType": "object",
+        "required": [
+            "role",
+            "name",
+            "age",
+            "enrollment_date",
+            "fines",
+            "books",
+            "email"
+        ],
+        "properties": {
+            "role": {
+                "enum": [
+                    "admin",
+                    "staff",
+                    "member",
+                    "library_manager"
+                ],
+                "description": "must be one of the RBAC rolls"
+            },
+            "name": {
+                "bsonType": "string",
+                "description": "a user's name"
+            },
+            "fines": {
+                "bsonType": "array",
+                "items": {
+                    "bsonType": "object",
+                    "required": [
+                        "total_cost",
+                        "daily_rate",
+                        "book_id"
+                    ],
+                    "properties": {
+                        "total_cost": {
+                            "bsonType": "double",
+                            "description": "the total cost of the fine"
+                        },
+                        "daily_rate": {
+                            "bsonType": "double",
+                            "description": "the daily cost of the fine"
+                        },
+                        "book_id": {
+                            "bsonType": "string",
+                            "description": "the id of the book the fine relates to"
+                        }
+                    }
+                },
+                "description": "arrayFieldName must be an array of strings"
+            },
+            "books": {
+                "bsonType": "array",
+                "items": {
+                    "bsonType": "object",
+                    "required": [
+                        "book_id",
+                        "title",
+                        "author"
+                    ],
+                    "properties": {
+                        "book_id": {
+                            "bsonType": "string",
+                            "description": "the book's unique id"
+                        },
+                        "title": {
+                            "bsonType": "string",
+                            "description": "the book's title"
+                        },
+                        "author": {
+                            "bsonType": "string",
+                            "description": "the book's author's name"
+                        }
+                    }
+                }
+            },
+            "email": {
+                "bsonType": "string",
+                "description": "a user's email"
+            }
+        }
+    }
+}
