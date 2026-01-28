@@ -1,16 +1,5 @@
 import { MongoClient } from "mongodb";
-import infisicalClient from "../infisical.mjs"
-
-const ATLAS_URI = (await infisicalClient.secrets().getSecret({
-    projectId: process.env.INFISICAL_PROJECT_ID,
-    environment: process.env.PROJECT_ENVIRONMENT,
-    secretName: "ATLAS_URI"
-})).secretValue;
-const DATABASE_NAME = (await infisicalClient.secrets().getSecret({
-    projectId: process.env.INFISICAL_PROJECT_ID,
-    environment: process.env.PROJECT_ENVIRONMENT,
-    secretName: "DATABASE_NAME"
-})).secretValue;
+import { ATLAS_URI, DATABASE_NAME } from "../infisical.mjs"
 
 const client = new MongoClient(ATLAS_URI);
 let conn;
