@@ -11,7 +11,7 @@
 | isbn                 | string                             |                                    |
 | author               | string                             |                                    |
 | genre                | string                             |                                    |
-| type                 | enum (print or eBook)              |                                    |
+| format               | enum (print or eBook)              |                                    |
 | publisher            | string                             |                                    |
 | condition            | enum (good, medium, bad, very bad) |                                    |
 | sc_id                | string                             |   format <book_id/reservation_id>  |
