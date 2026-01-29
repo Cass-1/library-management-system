@@ -5,17 +5,22 @@
   "license": "ISC",
   "author": "",
   "type": "module",
-  "main": "server.js",
+  "main": "server.ts",
   "scripts": {
     "test": "node --env-file=development.env ./node_modules/vitest/vitest.mjs",
-    "dev": "node --env-file=development.env server.js"
+    "dev": "node --env-file=development.env server.ts"
   },
   "dependencies": {
     "@infisical/sdk": "^4.0.6",
+    "@types/express": "^5.0.6",
     "express": "^5.2.1",
     "mongodb": "^7.0.0"
   },
   "devDependencies": {
+    "@types/node": "^25.1.0",
+    "nodemon": "^3.1.11",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
     "vitest": "^4.0.18"
   }
 }
