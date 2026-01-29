@@ -1,5 +1,5 @@
-import { Collection, Db, MongoClient } from "mongodb";
-import { ATLAS_URI, DATABASE_NAME } from "../infisical"
+import { Db, MongoClient } from "mongodb";
+import { ATLAS_URI, DATABASE_NAME } from "../infisical.js";
 import { strict as assert } from 'node:assert';
 
 
@@ -18,3 +18,7 @@ assert(userCol !== undefined);
 
 export const mongoDB = db;
 export const userCollection = userCol;
+export async function closeDatabaseConnection() {
+    await client.close();
+    console.log("Connection to mongoDB closed");
+}
