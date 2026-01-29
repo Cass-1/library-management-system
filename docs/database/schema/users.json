@@ -25,6 +25,15 @@
                 "bsonType": "string",
                 "description": "a user's name"
             },
+            "age": {
+                "bsonType": "double",
+                "description": "the user's age at registering"
+            },
+            "enrollment_date": {
+                "bsonType": "string",
+                "format": "date",
+                "description": "the date the user created an account"
+            },
             "fines": {
                 "bsonType": "array",
                 "items": {
