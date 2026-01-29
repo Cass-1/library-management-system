@@ -1,5 +1,5 @@
 import { InfisicalSDK } from '@infisical/sdk';
-import assert from 'assert';
+import { strict as assert } from 'node:assert';
 
 const MACHINE_ID = process.env.INFISICAL_MACHINE_IDENTITY_CLIENT_ID;
 const MACHINE_SECRET = process.env.INFISICAL_MACHINE_IDENTITY_CLIENT_SECRET;

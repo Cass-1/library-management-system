@@ -1,6 +1,6 @@
 import { Collection, Db, MongoClient } from "mongodb";
-import { ATLAS_URI, DATABASE_NAME } from "../infisical.mjs"
-import assert from "assert";
+import { ATLAS_URI, DATABASE_NAME } from "../infisical.js"
+import { strict as assert } from 'node:assert';
 
 
 const client = new MongoClient(ATLAS_URI);
