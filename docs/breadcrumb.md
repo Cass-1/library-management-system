@@ -1,3 +1,3 @@
 # Breadcrumb
 
-continue to write tests  for mongodb crud operations
+fix some typescript settings im having issues with `npm run dev` but no problems with `npm run test`
