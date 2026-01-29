@@ -1,4 +1,4 @@
-import db from "./db/conn.mjs"
+import { mongoDB } from "./db/conn"
 import express from 'express'
 
 const app = express()
@@ -7,7 +7,7 @@ const PORT = 3000;
 
 app.get("/", async (req, res) => {
 
-    const col = await db.collection("test");
+    const col = await mongoDB.collection("test");
     const result = await col.find({}).toArray();
 
     res.send(result).status(200);

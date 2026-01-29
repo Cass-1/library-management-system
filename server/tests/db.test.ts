@@ -1,8 +1,8 @@
-import { assert, expect, test } from "vitest"
-import { mongoDB, userCollection } from "../db/conn.mts";
-import { MongoServerError, InsertOneResult, ObjectId } from "mongodb";
-import { readFileSync } from "node:fs"
-import path from "node:path";
+import { expect, test } from "vitest"
+import { userCollection } from "../db/conn";
+import { MongoServerError } from "mongodb";
+import fs from 'fs';
+import path from 'path';
 
 test("test user schema", async () => {
 
@@ -12,7 +12,7 @@ test("test user schema", async () => {
 });
 
 test("insert and remove user", async () => {
-    var data = JSON.parse(readFileSync(path.join(__dirname, "./json-examples/user1.json")).toString());
+    var data = JSON.parse(fs.readFileSync(path.join(__dirname, "./json-examples/user1.json")).toString());
     const promise = userCollection.insertOne(data);
     await expect(promise).resolves.toBeDefined();
 });
