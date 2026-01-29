@@ -1,8 +1,12 @@
-import { expect, test } from "vitest"
-import { userCollection } from "../db/conn";
+import { afterAll, expect, test } from "vitest"
 import { MongoServerError } from "mongodb";
 import fs from 'fs';
 import path from 'path';
+import { closeDatabaseConnection, userCollection } from "../db/conn.js";
+
+afterAll(() => {
+    closeDatabaseConnection();
+})
 
 test("test user schema", async () => {
 
