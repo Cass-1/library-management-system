@@ -28,7 +28,7 @@ try {
     console.error(e);
 }
 
-let atlas_uri, database_name;
+let atlas_uri, database_name, port;
 try {
     atlas_uri = (await infisicalClient?.secrets().getSecret({
         projectId: PROJECT_ID,
@@ -41,12 +41,20 @@ try {
         environment: process.env.PROJECT_ENVIRONMENT ?? "",
         secretName: "DATABASE_NAME"
     }))?.secretValue;
+
+    port = (await infisicalClient?.secrets().getSecret({
+        projectId: process.env.INFISICAL_PROJECT_ID ?? "",
+        environment: process.env.PROJECT_ENVIRONMENT ?? "",
+        secretName: "PORT"
+    }))?.secretValue;
 } catch (e) {
     console.error(e);
 }
 
 assert(atlas_uri !== undefined);
 assert(database_name !== undefined);
+assert(port !== undefined);
 
 export const ATLAS_URI = atlas_uri;
 export const DATABASE_NAME = database_name;
+export const PORT = port;

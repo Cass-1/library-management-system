@@ -1,10 +1,8 @@
 import { debug } from "node:console";
-import { mongoDB } from "./db/conn"
 import express from 'express'
+import { PORT } from "./infisical.js";
 
 const app = express()
-//TODO: need to change this so that infisical can handle it
-const PORT = 3000;
 
 const server = app.listen(PORT, () => {
     console.log(`app listening on port ${PORT}`)
@@ -20,9 +18,5 @@ process.on('SIGTERM', () => {
 
 app.get("/", async (req, res) => {
 
-    const col = await mongoDB.collection("test");
-    const result = await col.find({}).toArray();
-
-    res.send(result).status(200);
 })
 
