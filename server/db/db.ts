@@ -2,7 +2,7 @@ import { Db, MongoClient } from "mongodb";
 import { ATLAS_URI, DATABASE_NAME } from "../infisical.js";
 import { strict as assert } from 'node:assert';
 
-
+// https://www.mongodb.com/resources/languages/express-mongodb-rest-api-tutorial
 const client = new MongoClient(ATLAS_URI);
 let conn;
 try {
@@ -18,7 +18,3 @@ assert(userCol !== undefined);
 
 export const mongoDB = db;
 export const userCollection = userCol;
-export async function closeDatabaseConnection() {
-    await client.close();
-    console.log("Connection to mongoDB closed");
-}
