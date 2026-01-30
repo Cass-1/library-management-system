@@ -17,6 +17,6 @@ process.on('SIGTERM', () => {
 })
 
 app.get("/", async (req, res) => {
-
+    res.send("hello")
 })
 
