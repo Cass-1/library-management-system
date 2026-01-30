@@ -1,5 +1,5 @@
 import { Db, MongoClient } from "mongodb";
-import { ATLAS_URI, DATABASE_NAME } from "../infisical.js";
+import { ATLAS_URI, DATABASE_NAME } from "@util/infisical.js";
 import { strict as assert } from 'node:assert';
 
 // https://www.mongodb.com/resources/languages/express-mongodb-rest-api-tutorial

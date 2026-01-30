@@ -6,6 +6,11 @@
         "outDir": "./build",
         "esModuleInterop": true,
         "strict": true,
-        "moduleResolution": "nodenext"
+        "moduleResolution": "nodenext",
+        "paths": {
+            "@util/*": [
+                "./util/*"
+            ]
+        }
     }
 }

@@ -2,7 +2,7 @@ import { expect, test } from "vitest"
 import { MongoServerError } from "mongodb";
 import fs from 'fs';
 import path from 'path';
-import { userCollection } from "../db/db.js";
+import { userCollection } from "@util/db.js";
 
 test("test user schema", async () => {
 

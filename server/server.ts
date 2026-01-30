@@ -1,6 +1,6 @@
 import { debug } from "node:console";
 import express from 'express'
-import { PORT } from "./infisical.js";
+import { PORT } from "@util/infisical.js";
 
 const app = express()
 
