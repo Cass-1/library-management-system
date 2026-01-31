@@ -1,6 +1,7 @@
 # Breadcrumb
 
-write out the schema for mongodb, go and work on #9 which is tied to #10. maybe make #9 a sub issue of #10
+Im a little worried that the ./ here needs to be somehow changed to an absolute import but im not sure
+`"test": "npx tsx --env-file=development.env ./node_modules/vitest/vitest.mjs"`
 
 Next steps:
 
