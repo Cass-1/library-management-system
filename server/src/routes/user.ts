@@ -1,5 +1,5 @@
 import express from "express"
-import * as UserController from "@controllers/userController.js"
+import * as UserController from "../controllers/userController.js"
 const router = express.Router();
 
 router.get("/delete", (req, res) => {

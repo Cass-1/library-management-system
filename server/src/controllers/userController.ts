@@ -1,8 +1,8 @@
 import { User } from "@models/User.js";
-import { userCollection } from "@util/db.js";
+import { userCollection } from "../util/db.js";
 import { Request, Response } from 'express';
 import { body, ValidationChain, validationResult } from "express-validator";
-import { ValidationChainError } from "@util/customErrors.js"
+import { ValidationChainError } from "../util/customErrors.js"
 
 export async function createUser(req: Request<{}, {}, User>, res: Response) {
     try {

@@ -7,18 +7,22 @@
         "esModuleInterop": true,
         "strict": true,
         "moduleResolution": "nodenext",
+        "baseUrl": "./",
         "paths": {
             "@util/*": [
-                "./util/*"
+                "src/util/*"
             ],
             "@routes/*": [
-                "./routes/*"
+                "src/routes/*"
             ],
             "@models/*": [
-                "./models/*"
+                "src/models/*"
             ],
             "@controllers/*": [
-                "./controllers/*"
+                "src/controllers/*"
+            ],
+            "@tests/*": [
+                "src/tests/*"
             ]
         }
     }
