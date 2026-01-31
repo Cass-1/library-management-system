@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "target": "es2017",
+        "module": "nodenext",
+        "rootDir": "./",
+        "outDir": "./build",
+        "esModuleInterop": true,
+        "strict": true,
+        "moduleResolution": "nodenext",
+        "paths": {
+            "@util/*": [
+                "./util/*"
+            ],
+            "@routes/*": [
+                "./routes/*"
+            ],
+            "@models/*": [
+                "./models/*"
+            ],
+            "@controllers/*": [
+                "./controllers/*"
+            ]
+        }
+    }
+}
