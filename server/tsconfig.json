@@ -9,6 +9,9 @@
         "moduleResolution": "nodenext",
         "baseUrl": "./",
         "paths": {
+            "@/*": [
+                "src/*"
+            ],
             "@util/*": [
                 "src/util/*"
             ],
