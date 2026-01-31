@@ -37,14 +37,14 @@ try {
     }))?.secretValue;
 
     database_name = (await infisicalClient?.secrets().getSecret({
-        projectId: process.env.INFISICAL_PROJECT_ID ?? "",
-        environment: process.env.PROJECT_ENVIRONMENT ?? "",
+        projectId: PROJECT_ID,
+        environment: PROJECT_ENVIRONMENT,
         secretName: "DATABASE_NAME"
     }))?.secretValue;
 
     port = (await infisicalClient?.secrets().getSecret({
-        projectId: process.env.INFISICAL_PROJECT_ID ?? "",
-        environment: process.env.PROJECT_ENVIRONMENT ?? "",
+        projectId: PROJECT_ID,
+        environment: PROJECT_ENVIRONMENT,
         secretName: "PORT"
     }))?.secretValue;
 } catch (e) {
