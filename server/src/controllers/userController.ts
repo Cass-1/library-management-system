@@ -1,32 +1,37 @@
 import { User } from "@models/User.js";
-import { userCollection } from "../util/db.js";
+import { mongoDB, userCollection } from "../util/db.js";
 import { Request, Response } from 'express';
 import { body, ValidationChain, validationResult } from "express-validator";
-import { ValidationChainError } from "../util/customErrors.js"
+import * as errorHandler from "@/util/errorHandlers.js";
+import { checkValidation } from "@/util/checkValidation.js";
 
 export async function createUser(req: Request<{}, {}, User>, res: Response) {
     try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            throw new ValidationChainError(errors.array());
-        }
+        checkValidation(req);
         const user: User = req.body;
         const response = await userCollection.insertOne(user);
         res.status(201).json(response);
     }
     catch (err) {
-        if (err instanceof ValidationChainError) {
-            res.status(422).json({ errors: err.errorList });
-        }
-        else if (err instanceof Error) {
-            res.status(400).json({ error: err.message })
-        }
-        console.log(err);
+        errorHandler.genericRouteErrorHandler(err, res);
     }
 }
 
-// middleware
+export async function deleteUser(req: Request, res: Response) {
+    try {
+        checkValidation(req);
+        const id = req.body.id;
+        const response = await userCollection.deleteOne({ _id: id });
+        res.status(200).json(response);
+    }
+    catch (err) {
+        errorHandler.genericRouteErrorHandler(err, res);
+    }
+}
+
+// middleware used by user router
 // https://www.freecodecamp.org/news/how-to-make-input-validation-simple-and-clean-in-your-express-js-app-ea9b5ff5a8a7/
+// TODO improve the validation here
 export function validate(method: string): ValidationChain[] {
     switch (method) {
         case "createUser":
@@ -38,6 +43,10 @@ export function validate(method: string): ValidationChain[] {
                 body("fines").exists(),
                 body("books").exists(),
                 body("email").exists()
+            ]
+        case "deleteUser":
+            return [
+                body("id").exists()
             ]
         default:
             return []
