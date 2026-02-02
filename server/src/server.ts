@@ -1,8 +1,7 @@
-import { debug } from "node:console";
 import express from 'express'
 import { PORT } from "@util/infisical.js";
 import bodyParser from "body-parser";
-import userRouter from "@/routes/user.js"
+import userRouter from "@/routes/userRouter.js"
 
 const app = express()
 app.use(bodyParser.json());
