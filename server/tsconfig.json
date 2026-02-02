@@ -26,6 +26,9 @@
             ],
             "@tests/*": [
                 "src/tests/*"
+            ],
+            "@database/*": [
+                "src/database/*"
             ]
         }
     }
