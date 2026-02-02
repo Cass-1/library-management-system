@@ -1,23 +1,24 @@
 import { User } from "@models/User.js";
+import { mongoDB, userCollection } from "../../database/db.js";
 import { Request, Response } from 'express';
-import { body, param, ValidationChain } from "express-validator";
+import { body, param, ValidationChain, validationResult } from "express-validator";
 import { genericRouteErrorHandler } from "@/util/errorHandlers.js";
 import { checkValidation } from "@/util/checkValidation.js";
-import { DataAccessLayer } from "@/database/DataAccessLayer.js";
+import { ObjectId } from "mongodb";
+import { DataAccessLayer } from "database/DataAccessLayer.js";
 
 export class UserController {
     #dataAccessLayer: DataAccessLayer;
 
     public constructor(dal: DataAccessLayer) {
         this.#dataAccessLayer = dal;
-        console.log("controller constructed")
     }
 
-    CreateUser = async (req: Request<{}, {}, User>, res: Response) => {
+    public async CreateUser(req: Request<{}, {}, User>, res: Response) {
         try {
             checkValidation(req);
             const user: User = req.body;
-            const response = await this.#dataAccessLayer.CreateUser(user);
+            const response = await userCollection.insertOne(user);
             res.status(201).json(response);
         }
         catch (err) {
@@ -25,11 +26,11 @@ export class UserController {
         }
     }
 
-    DeleteUser = async (req: Request, res: Response) => {
+    public async DeleteUser(req: Request, res: Response) {
         try {
             checkValidation(req);
             const id = req.body.id;
-            const response = await this.#dataAccessLayer.DeleteUser(id);
+            const response = await userCollection.deleteOne({ _id: id });
             res.status(200).json(response);
         }
         catch (err) {
@@ -37,12 +38,12 @@ export class UserController {
         }
     }
 
-    GetUser = async (req: Request, res: Response) => {
+    public async GetUser(req: Request, res: Response) {
         try {
             checkValidation(req);
             // FIXME: make this casting better
             const id = req.params.id as unknown as undefined;
-            const response = await this.#dataAccessLayer.GetUser(id);
+            const response = await userCollection.findOne({ _id: id });
             if (response === null) {
                 throw new Error(`User with id ${id} not found`);
             }
@@ -56,7 +57,7 @@ export class UserController {
     // middleware used by user router
     // https://www.freecodecamp.org/news/how-to-make-input-validation-simple-and-clean-in-your-express-js-app-ea9b5ff5a8a7/
     // TODO: improve the validation here
-    Validate = (method: string): ValidationChain[] => {
+    public Validate(method: string): ValidationChain[] {
         switch (method) {
             case "createUser":
                 return [
