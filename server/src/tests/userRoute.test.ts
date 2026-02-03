@@ -18,6 +18,7 @@ afterAll(() => {
 describe("Integration Tests for User Route", () => {
 
     describe("userRoute GET requests", () => {
+        //TODO: improve both the beforeall and afterall here
         // put a user in the database
         beforeAll(async () => {
             var data = JSON.parse(fs.readFileSync(path.join(__dirname, "./json-examples/user2.json")).toString());

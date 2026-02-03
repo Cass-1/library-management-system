@@ -22,7 +22,8 @@ export async function createUser(req: Request<{}, {}, User>, res: Response) {
 export async function deleteUser(req: Request, res: Response) {
     try {
         checkValidation(req);
-        const id = req.body.id;
+        // FIXME: make this casting better
+        const id: any = req.params.id;
         const response = await userService.deleteUser(id);
         res.status(200).json(response);
     }
@@ -35,7 +36,7 @@ export async function getUser(req: Request, res: Response) {
     try {
         checkValidation(req);
         // FIXME: make this casting better
-        const id = req.params.id as unknown as ObjectId;
+        const id: any = req.params.id;
         const response = await userService.getUser(id);
         if (response === null) {
             throw new Error(`User with id ${id} not found`);
