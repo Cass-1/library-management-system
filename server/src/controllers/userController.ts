@@ -65,7 +65,7 @@ export function validate(method: string): ValidationChain[] {
             ]
         case "deleteUser":
             return [
-                body("id").exists()
+                param("id").isInt()
             ]
         case "getUser":
             return [

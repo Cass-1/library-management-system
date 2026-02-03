@@ -15,9 +15,9 @@ afterAll(() => {
     // cleanup
 })
 
-describe("Integration Tests for User Route", () => {
+describe("Integration Tests for User Route", async () => {
 
-    describe("userRoute GET requests", () => {
+    describe("userRoute GET requests", async () => {
         //TODO: improve both the beforeall and afterall here
         // put a user in the database
         beforeAll(async () => {
@@ -50,17 +50,47 @@ describe("Integration Tests for User Route", () => {
         });
     })
 
-    describe("User Route POST Tests", () => {
-        describe("Create Route Tests", () => {
-            it("creates a user successfully");
-            it("fails to create user because user already exists");
-            it("fails to create user because of a malformed request");
+    describe("User Route POST Tests", async () => {
+        describe("Create Route Tests", async () => {
+            it("creates a user successfully", async () => {
+                var data = JSON.parse(fs.readFileSync(path.join(__dirname, "./json-examples/user3.json")).toString());
+                const res = await request(app).post("/user/").send(data);
+                expect(res.statusCode).toBe(201);
+                expect(res.body.acknowledged).toBe(true);
+                expect(res.body.insertedId).toBe("3");
+            });
+            it("fails to create user because user already exists", async () => {
+                var data = JSON.parse(fs.readFileSync(path.join(__dirname, "./json-examples/user3.json")).toString());
+                const res = await request(app).post("/user/").send(data);
+                expect(res.statusCode).toBe(400);
+                expect(res.body.message).toBe("Mongodb Server Error");
+            });
+            it("fails to create user because of a malformed request", async () => {
+                var data = { "utter": "nonsense" };
+                const res = await request(app).post("/user").send(data);
+                expect(res.statusCode).toBe(422);
+                expect(res.body.message).toBe("Validation Chain Error");
+            });
         })
 
-        describe("Delete Route Tests", () => {
-            it("deletes a user successfully");
-            it("fails to delete a user because user doesn't exist");
-            it("fails to delete a user because of a malformed request");
+        describe("Delete Route Tests", async () => {
+            it("deletes a user successfully", async () => {
+                const res = await request(app).delete("/user/3");
+                expect(res.statusCode).toBe(200);
+                expect(res.body.acknowledged).toBe(true);
+                expect(res.body.deletedCount).toBe(1);
+            });
+            it("fails to delete a user because user doesn't exist", async () => {
+                const res = await request(app).delete("/user/3");
+                expect(res.statusCode).toBe(200);
+                expect(res.body.acknowledged).toBe(true);
+                expect(res.body.deletedCount).toBe(0);
+            });
+            it("fails to delete a user because of a malformed request", async () => {
+                const res = await request(app).delete("/user/aa");
+                expect(res.statusCode).toBe(422);
+                expect(res.body.message).toBe("Validation Chain Error");
+            });
         })
 
         describe("Update Route Tests", () => {
