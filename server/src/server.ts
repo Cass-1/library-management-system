@@ -3,7 +3,7 @@ import { PORT } from "@util/infisical.js";
 import bodyParser from "body-parser";
 import userRouter from "@/routes/userRouter.js"
 
-const app = express()
+export const app = express()
 app.use(bodyParser.json());
 
 const server = app.listen(PORT, () => {
@@ -23,4 +23,3 @@ app.use("/user", userRouter);
 app.get("/", async (req, res) => {
     res.send("hello")
 })
-

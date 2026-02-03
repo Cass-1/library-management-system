@@ -2,7 +2,7 @@ import { expect, test } from "vitest"
 import { MongoServerError } from "mongodb";
 import fs from 'fs';
 import path from 'path';
-import { userCollection } from "@/database/db.js";
+import { userCollection } from "@/util/db.js";
 
 test("test user schema", async () => {
 
@@ -11,13 +11,13 @@ test("test user schema", async () => {
 
 });
 
-test("insert and remove user", async () => {
+test("insert user", async () => {
     var data = JSON.parse(fs.readFileSync(path.join(__dirname, "./json-examples/user1.json")).toString());
-    const promise = userCollection.insertOne(data);
-    await expect(promise).resolves.toBeDefined();
+    const result = await userCollection.insertOne(data);
+    expect(result).toStrictEqual({ "acknowledged": true, "insertedId": "1" });
 });
 
 test("remove user", async () => {
-    const promise = userCollection.deleteOne({ name: "John Doe" })
-    await expect(promise).resolves.toBeDefined();
+    const result = await userCollection.deleteOne({ name: "John Doe" })
+    expect(result).toStrictEqual({ "acknowledged": true, "deletedCount": 1 });
 })

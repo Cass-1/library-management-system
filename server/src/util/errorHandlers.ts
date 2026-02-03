@@ -1,6 +1,5 @@
-import { validationResult } from "express-validator";
 import { ValidationChainError } from "./customErrors.js";
-import { Request, Response } from 'express';
+import { Response } from 'express';
 import { MongoServerError } from "mongodb";
 
 export function genericRouteErrorHandler(err: unknown, res: Response) {

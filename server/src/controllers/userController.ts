@@ -68,7 +68,7 @@ export function validate(method: string): ValidationChain[] {
             ]
         case "getUser":
             return [
-                param("id").exists()
+                param("id").isInt()
             ]
         default:
             return []
