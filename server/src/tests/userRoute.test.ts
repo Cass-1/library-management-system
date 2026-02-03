@@ -73,7 +73,7 @@ describe("Integration Tests for User Route", async () => {
             });
         })
 
-        describe("Delete Route Tests", async () => {
+        describe("DELETE Route Tests", async () => {
             it("deletes a user successfully", async () => {
                 const res = await request(app).delete("/user/3");
                 expect(res.statusCode).toBe(200);
@@ -93,10 +93,43 @@ describe("Integration Tests for User Route", async () => {
             });
         })
 
-        describe("Update Route Tests", () => {
-            it("updates a user successfully");
-            it("fails to update a user because user doesn't exist");
-            it("fails to update a user because of a malformed request");
+        describe("POST Route Tests", () => {
+            //TODO: improve both the beforeall and afterall here
+            // put a user in the database
+            beforeAll(async () => {
+                var data = JSON.parse(fs.readFileSync(path.join(__dirname, "./json-examples/user4.json")).toString());
+                const response = await userCollection.insertOne(data);
+                expect(response).toStrictEqual({ "acknowledged": true, "insertedId": "4" });
+            })
+            // remove the user from the database
+            afterAll(async () => {
+                const id = "4" as unknown as ObjectId;
+                const response = await userCollection.deleteOne({ _id: id });
+                expect(response).toStrictEqual({ "acknowledged": true, "deletedCount": 1 });
+            })
+
+            it("updates a user successfully", async () => {
+                const response = await request(app).patch("/user/4").send({ age: 1000 })
+                expect(response.statusCode).toBe(200);
+                expect(response.body.acknowledged).toBe(true);
+                expect(response.body.modifiedCount).toBe(1);
+                expect(response.body.upsertedCount).toBe(0);
+                expect(response.body.matchedCount).toBe(1);
+            });
+            it("fails to update a user because user doesn't exist", async () => {
+                const response = await request(app).patch("/user/1342").send({ age: 1000 })
+                expect(response.statusCode).toBe(200);
+                expect(response.body.acknowledged).toBe(true);
+                expect(response.body.modifiedCount).toBe(0);
+                expect(response.body.upsertedCount).toBe(0);
+                expect(response.body.matchedCount).toBe(0);
+                expect(response.body.upsertedId).toBe(null);
+            });
+            it("fails to update a user because of a malformed request", async () => {
+                const response = await request(app).patch("/user/aaaaaa").send({ age: 1000 })
+                expect(response.statusCode).toBe(422);
+                expect(response.body.message).toBe("Validation Chain Error");
+            });
         })
 
     })

@@ -14,8 +14,21 @@ async function getUser(id: ObjectId) {
     return await userCollection.findOne({ _id: id });
 }
 
+async function patchUser(id: ObjectId, data: Object) {
+    const query = {
+        "_id": id
+    };
+    const update = {
+        "$set": {
+            ...data
+        }
+    };
+    return await userCollection.updateOne(query, update);
+}
+
 export {
     createUser,
     deleteUser,
-    getUser
+    getUser,
+    patchUser
 }
