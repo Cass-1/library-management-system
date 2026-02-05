@@ -22,15 +22,31 @@ describe("User Controller Unit Tests", () => {
         vi.restoreAllMocks();
     });
 
-    it("getUser should get a user", async () => {
-        const mockReq = { params: { id: "1" } };
-        (serviceMocks.getUser as Mock).mockResolvedValue({ test: "hello" });
+    describe("getUser tests", () => {
+        it("get a user successfully", async () => {
+            const mockReq = { params: { id: "1" } };
+            (serviceMocks.getUser as Mock).mockResolvedValue({ test: "hello" });
 
-        await userController.getUser(mockReq as any, expressResponseMock);
+            await userController.getUser(mockReq as any, expressResponseMock);
 
-        expect(expressResponseMock.status).toHaveBeenCalledWith(200);
-        expect(expressResponseMock.json).toHaveBeenCalledWith({ test: "hello" });
-    });
+            expect(expressResponseMock.status).toHaveBeenCalledWith(200);
+            expect(expressResponseMock.json).toHaveBeenCalledWith({ test: "hello" });
+        });
+
+        it("fail to get user because id not found", async () => {
+            const mockReq = { params: { id: "1" } };
+            (serviceMocks.getUser as Mock).mockResolvedValue(null);
+
+            await userController.getUser(mockReq as any, expressResponseMock);
+
+            expect(expressResponseMock.status).toHaveBeenCalledWith(400);
+            expect(expressResponseMock.json).toHaveBeenCalledWith({ "error": "User with id 1 not found" });
+        });
+
+        it("fail to get user because of mongodb")
+    })
+
+
 
     it("deleteUser should delete user", async () => {
         const mockReq = { params: { id: "1" } };
