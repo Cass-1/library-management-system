@@ -10,8 +10,8 @@ async function deleteUser(id: ObjectId) {
     return await userCollection.deleteOne({ _id: id });
 }
 
-async function getUser(id: ObjectId) {
-    return await userCollection.findOne({ _id: id });
+async function getUser(id: ObjectId): Promise<User | null> {
+    return await userCollection.findOne({ _id: id }) as User;
 }
 
 async function patchUser(id: ObjectId, data: Object) {

@@ -26,6 +26,9 @@
             ],
             "@tests/*": [
                 "src/tests/*"
+            ],
+            "@services/*": [
+                "src/services/*"
             ]
         }
     }
