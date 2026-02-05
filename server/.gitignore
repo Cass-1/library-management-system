@@ -16,4 +16,4 @@ coverage
 benchmarks/graphs
 
 # environment
-*.env
+.env*

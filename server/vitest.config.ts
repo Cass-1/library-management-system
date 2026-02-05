@@ -3,6 +3,7 @@ import viteTsconfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
     test: {
+        execArgv: ['--env-file=./.env.development'],
     },
     plugins: [viteTsconfigPaths()]
 })

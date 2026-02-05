@@ -1,0 +1,12 @@
+{
+    "folders": [
+        {
+            "path": "../"
+        }
+    ],
+    "settings": {
+        "vitest.nodeExecArgs": [
+            "--env-file=../server/.env.development"
+        ],
+    }
+}
