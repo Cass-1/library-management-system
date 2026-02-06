@@ -18,5 +18,8 @@ export function genericRouteErrorHandler(err: unknown, res: Response) {
     else if (err instanceof Error) {
         res.status(400).json({ error: err.message })
     }
+    else {
+        res.status(400).json({ error: "expected parameter \"err\" to be an instance of error" })
+    }
     console.log(err);
 }
