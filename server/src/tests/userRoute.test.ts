@@ -3,9 +3,6 @@ import request from "supertest";
 import { afterAll, beforeAll, expect, it, vi } from "vitest";
 import { app } from "@/server.js";
 import { userCollection } from "@/util/db.js";
-import path from "path";
-import * as fs from "fs"
-import { ObjectId } from "mongodb";
 import * as userExamples from "./util/example-users.js";
 
 const testingVars = {
