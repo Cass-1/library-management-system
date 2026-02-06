@@ -14,14 +14,6 @@ const testingVars = {
     user4: userExamples.user4
 };
 
-beforeAll(() => {
-    // run dev database setup script
-})
-
-afterAll(() => {
-    // cleanup
-})
-
 describe("Integration Tests for User Route", async () => {
 
     describe("userRoute GET requests", async () => {
