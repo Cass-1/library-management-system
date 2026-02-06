@@ -106,12 +106,14 @@ describe("Integration Tests for User Route", async () => {
         })
 
         it("updates a user successfully", async () => {
-            const response = await request(app).patch("/user/4").send({ age: 1000 })
+            const response = await request(app).patch("/user/4").send({ age: 1000 });
+            const getResponse = await request(app).get("/user/4");
             expect(response.statusCode).toBe(200);
             expect(response.body.acknowledged).toBe(true);
             expect(response.body.modifiedCount).toBe(1);
             expect(response.body.upsertedCount).toBe(0);
             expect(response.body.matchedCount).toBe(1);
+            expect(getResponse.body.age).toBe(1000);
         });
         it("fails to update a user because user doesn't exist", async () => {
             const response = await request(app).patch("/user/1342").send({ age: 1000 })
