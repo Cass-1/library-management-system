@@ -6,14 +6,18 @@ import { expressResponseMock } from "./util/expressResponseMock.js";
 const serviceMocks = vi.hoisted(() => {
     return {
         getUser: vi.fn(),
-        deleteUser: vi.fn()
+        deleteUser: vi.fn(),
+        patchUser: vi.fn(),
+        createUser: vi.fn()
     }
 });
 
 vi.mock("../services/userService.js", () => {
     return {
         getUser: serviceMocks.getUser,
-        deleteUser: serviceMocks.deleteUser
+        deleteUser: serviceMocks.deleteUser,
+        patchUser: serviceMocks.patchUser,
+        createUser: serviceMocks.createUser
     }
 })
 
@@ -33,7 +37,7 @@ describe("User Controller Unit Tests", () => {
             expect(expressResponseMock.json).toHaveBeenCalledWith({ test: "hello" });
         });
 
-        it("fail to get user because id not found", async () => {
+        it("fail to get user", async () => {
             const mockReq = { params: { id: "1" } };
             (serviceMocks.getUser as Mock).mockResolvedValue(null);
 
@@ -42,19 +46,45 @@ describe("User Controller Unit Tests", () => {
             expect(expressResponseMock.status).toHaveBeenCalledWith(400);
             expect(expressResponseMock.json).toHaveBeenCalledWith({ "error": "User with id 1 not found" });
         });
+    });
 
-        it("fail to get user because of mongodb")
+    describe("deleteUser tests", () => {
+        it("deleteUser should call userService delete user", async () => {
+            const mockReq = { params: { id: "1" } };
+            (serviceMocks.deleteUser as Mock).mockResolvedValue({ test: "hello" });
+
+            await userController.deleteUser(mockReq as any, expressResponseMock);
+
+            expect(expressResponseMock.status).toHaveBeenCalledWith(200);
+            expect(expressResponseMock.json).toHaveBeenCalledWith({ test: "hello" });
+        })
+    })
+
+    describe("patchUser tests", () => {
+        it("patchUser should call userService patchUser", async () => {
+            const mockReq = { params: { id: "1" } };
+            (serviceMocks.patchUser as Mock).mockResolvedValue({ test: "hello" });
+
+            await userController.patchUser(mockReq as any, expressResponseMock);
+
+            expect(expressResponseMock.status).toHaveBeenCalledWith(200);
+            expect(expressResponseMock.json).toHaveBeenCalledWith({ test: "hello" });
+        })
+    })
+
+    describe("createUser tests", () => {
+        it("createUser should call userService createUser", async () => {
+            const mockReq = { params: { id: "1" } };
+            (serviceMocks.createUser as Mock).mockResolvedValue({ test: "hello" });
+
+            await userController.createUser(mockReq as any, expressResponseMock);
+
+            expect(expressResponseMock.status).toHaveBeenCalledWith(201);
+            expect(expressResponseMock.json).toHaveBeenCalledWith({ test: "hello" });
+        })
     })
 
 
 
-    it("deleteUser should delete user", async () => {
-        const mockReq = { params: { id: "1" } };
-        (serviceMocks.deleteUser as Mock).mockResolvedValue({ test: "hello" });
 
-        await userController.deleteUser(mockReq as any, expressResponseMock);
-
-        expect(expressResponseMock.status).toHaveBeenCalledWith(200);
-        expect(expressResponseMock.json).toHaveBeenCalledWith({ test: "hello" });
-    })
 })

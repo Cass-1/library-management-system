@@ -6,6 +6,13 @@ import { userCollection } from "@/util/db.js";
 import path from "path";
 import * as fs from "fs"
 import { ObjectId } from "mongodb";
+import * as userExamples from "./util/example-users.js";
+
+const testingVars = {
+    user2: userExamples.user2,
+    user3: userExamples.user3,
+    user4: userExamples.user4
+};
 
 beforeAll(() => {
     // run dev database setup script
@@ -21,21 +28,22 @@ describe("Integration Tests for User Route", async () => {
         //TODO: improve both the beforeall and afterall here
         // put a user in the database
         beforeAll(async () => {
-            var data = JSON.parse(fs.readFileSync(path.join(__dirname, "./json-examples/user2.json")).toString());
-            const response = await userCollection.insertOne(data);
-            expect(response).toStrictEqual({ "acknowledged": true, "insertedId": "2" });
+            var data = testingVars.user2;
+            const response = await userCollection.insertOne(data as any);
+            expect(response.acknowledged).toBe(true);
+            expect(response.insertedId).toBe("2");
         })
         // remove the user from the database
         afterAll(async () => {
-            const id = "2" as unknown as ObjectId;
-            const response = await userCollection.deleteOne({ _id: id });
-            expect(response).toStrictEqual({ "acknowledged": true, "deletedCount": 1 });
+            const response = await userCollection.deleteOne({ _id: "2" as any });
+            expect(response.acknowledged).toBe(true);
+            expect(response.deletedCount).toBe(1);
         })
 
         it("gets a user successfully", async () => {
             const res = await request(app).get("/user/2");
             expect(res.statusCode).toBe(200);
-            expect(res.body._id).toBe("2");
+            expect(res.body).toStrictEqual(testingVars.user2);
 
         });
         it("fails to get a user because user doesn't exist", async () => {
@@ -53,14 +61,14 @@ describe("Integration Tests for User Route", async () => {
     describe("User Route POST Tests", async () => {
         describe("Create Route Tests", async () => {
             it("creates a user successfully", async () => {
-                var data = JSON.parse(fs.readFileSync(path.join(__dirname, "./json-examples/user3.json")).toString());
+                var data = testingVars.user3;
                 const res = await request(app).post("/user/").send(data);
                 expect(res.statusCode).toBe(201);
                 expect(res.body.acknowledged).toBe(true);
                 expect(res.body.insertedId).toBe("3");
             });
             it("fails to create user because user already exists", async () => {
-                var data = JSON.parse(fs.readFileSync(path.join(__dirname, "./json-examples/user3.json")).toString());
+                var data = testingVars.user3
                 const res = await request(app).post("/user/").send(data);
                 expect(res.statusCode).toBe(400);
                 expect(res.body.message).toBe("Mongodb Server Error");
@@ -97,15 +105,16 @@ describe("Integration Tests for User Route", async () => {
             //TODO: improve both the beforeall and afterall here
             // put a user in the database
             beforeAll(async () => {
-                var data = JSON.parse(fs.readFileSync(path.join(__dirname, "./json-examples/user4.json")).toString());
-                const response = await userCollection.insertOne(data);
-                expect(response).toStrictEqual({ "acknowledged": true, "insertedId": "4" });
+                var data = testingVars.user4;
+                const response = await userCollection.insertOne(data as any);
+                expect(response.acknowledged).toBe(true);
+                expect(response.insertedId).toBe("4")
             })
             // remove the user from the database
             afterAll(async () => {
-                const id = "4" as unknown as ObjectId;
-                const response = await userCollection.deleteOne({ _id: id });
-                expect(response).toStrictEqual({ "acknowledged": true, "deletedCount": 1 });
+                const response = await userCollection.deleteOne({ _id: "4" as any });
+                expect(response.acknowledged).toBe(true);
+                expect(response.deletedCount).toBe(1)
             })
 
             it("updates a user successfully", async () => {
