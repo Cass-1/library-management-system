@@ -11,10 +11,9 @@ const testingVars = {
     user4: userExamples.user4
 };
 
-describe("Integration Tests for User Route", async () => {
+describe("Integration Tests for User Route", () => {
 
-    describe("userRoute GET requests", async () => {
-        //TODO: improve both the beforeall and afterall here
+    describe("userRoute GET requests", () => {
         // put a user in the database
         beforeAll(async () => {
             var data = testingVars.user2;
@@ -47,7 +46,12 @@ describe("Integration Tests for User Route", async () => {
         });
     })
 
-    describe("Create Route Tests", async () => {
+    describe("POST Route Tests", () => {
+        afterAll(async () => {
+            const response = await userCollection.deleteOne({ _id: "3" as any });
+            expect(response.acknowledged).toBe(true);
+            expect(response.deletedCount).toBe(1)
+        })
         it("creates a user successfully", async () => {
             var data = testingVars.user3;
             const res = await request(app).post("/user/").send(data);
@@ -69,7 +73,14 @@ describe("Integration Tests for User Route", async () => {
         });
     })
 
-    describe("DELETE Route Tests", async () => {
+    describe("DELETE Route Tests", () => {
+        beforeAll(async () => {
+            var data = testingVars.user3;
+            const response = await userCollection.insertOne(data as any);
+            expect(response.acknowledged).toBe(true);
+            expect(response.insertedId).toBe("3")
+        })
+
         it("deletes a user successfully", async () => {
             const res = await request(app).delete("/user/3");
             expect(res.statusCode).toBe(200);
@@ -90,7 +101,6 @@ describe("Integration Tests for User Route", async () => {
     })
 
     describe("PATCH Route Tests", () => {
-        //TODO: improve both the beforeall and afterall here
         // put a user in the database
         beforeAll(async () => {
             var data = testingVars.user4;

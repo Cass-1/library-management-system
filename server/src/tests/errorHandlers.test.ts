@@ -21,9 +21,22 @@ describe("genericRouteErrorHandler tests", () => {
         genericRouteErrorHandler(new MongoServerError(errorDesc), expressResponseMock);
 
         expect(expressResponseMock.status).toBeCalledWith(400);
-        // FIXME: I can't seem to figure out how to mach the json that this error returns
-        expect(expressResponseMock.json).toHaveBeenCalled();
+        // https://stackoverflow.com/questions/52337116/loose-match-one-value-in-jest-tohavebeencalledwith
+        expect(expressResponseMock.json).toHaveBeenCalledWith(expect.objectContaining(
+            {
+                "message": "Mongodb Server Error",
+                "error": expect.objectContaining(
+                    {
+                        "message": "testing",
+                        "errorResponse": {
+                            "message": "testing"
+                        },
+                    }
+                )
+            }
+        ));
     });
+
 
     it("Handle a generic error", () => {
         genericRouteErrorHandler(new Error("test error"), expressResponseMock);
