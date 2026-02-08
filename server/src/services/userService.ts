@@ -3,8 +3,6 @@ import { userCollection } from "@/util/db.js";
 import { ObjectId } from "mongodb";
 
 async function createUser(user: User) {
-    // ensure user id is object
-    user._id = new ObjectId(user._id);
     return await userCollection.insertOne(user);
 }
 

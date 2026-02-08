@@ -64,6 +64,9 @@ function validate(method: string): ValidationChain[] {
         case "createUser":
             // TODO: improve the validation here
             return [
+                body("_id").customSanitizer((value) => {
+                    return new ObjectId(value);
+                }),
                 body("role").exists(),
                 body("name").exists(),
                 body("age").exists(),
