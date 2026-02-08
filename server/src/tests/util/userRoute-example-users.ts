@@ -1,7 +1,13 @@
-export const user1 = {
-    "_id": "1",
+import { ObjectId } from "mongodb"
+const GETExampleUserId = new ObjectId();
+const POSTExampleUserId = new ObjectId();
+const DELETEExampleUserId = new ObjectId();
+const PATCHExampleUserId = new ObjectId();
+
+const GETExampleUser = {
+    "_id": GETExampleUserId,
     "role": "member",
-    "name": "John Doe",
+    "name": "GET Example",
     "age": 12.1,
     "enrollment_date": "2012-04-23T18:25:43.511Z",
     "fines": [
@@ -21,10 +27,10 @@ export const user1 = {
     "email": "me@site.com"
 }
 
-export const user2 = {
-    "_id": "2",
+const POSTExampleUser = {
+    "_id": POSTExampleUserId,
     "role": "member",
-    "name": "Sam Hill",
+    "name": "POST Example",
     "age": 12.1,
     "enrollment_date": "2012-04-23T18:25:43.511Z",
     "fines": [
@@ -44,10 +50,10 @@ export const user2 = {
     "email": "me@site.com"
 }
 
-export const user3 = {
-    "_id": "3",
+const DELETEExampleUser = {
+    "_id": DELETEExampleUserId,
     "role": "member",
-    "name": "aCool Name",
+    "name": "DELETE Example",
     "age": 12.1,
     "enrollment_date": "2012-04-23T18:25:43.511Z",
     "fines": [
@@ -67,10 +73,10 @@ export const user3 = {
     "email": "me@site.com"
 }
 
-export const user4 = {
-    "_id": "4",
+const PATCHExampleUser = {
+    "_id": PATCHExampleUserId,
     "role": "member",
-    "name": "aCool Name",
+    "name": "PATCH Example",
     "age": 12.1,
     "enrollment_date": "2012-04-23T18:25:43.511Z",
     "fines": [
@@ -88,4 +94,11 @@ export const user4 = {
         }
     ],
     "email": "me@site.com"
+}
+
+export {
+    GETExampleUser,
+    POSTExampleUser,
+    DELETEExampleUser,
+    PATCHExampleUser
 }

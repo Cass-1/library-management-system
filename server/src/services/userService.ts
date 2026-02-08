@@ -3,20 +3,25 @@ import { userCollection } from "@/util/db.js";
 import { ObjectId } from "mongodb";
 
 async function createUser(user: User) {
+    // ensure user id is object
+    user._id = new ObjectId(user._id);
     return await userCollection.insertOne(user);
 }
 
-async function deleteUser(id: ObjectId) {
-    return await userCollection.deleteOne({ _id: id });
+async function deleteUser(id: string) {
+    const objId = new ObjectId(id);
+    return await userCollection.deleteOne({ _id: objId });
 }
 
-async function getUser(id: ObjectId): Promise<User | null> {
-    return await userCollection.findOne({ _id: id }) as User;
+async function getUser(id: string): Promise<User | null> {
+    const objId = new ObjectId(id);
+    return await userCollection.findOne({ _id: objId }) as User;
 }
 
-async function patchUser(id: ObjectId, data: Object) {
+async function patchUser(id: string, data: Object) {
+    const objId = new ObjectId(id);
     const query = {
-        "_id": id
+        "_id": objId
     };
     const update = {
         "$set": {

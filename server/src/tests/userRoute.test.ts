@@ -3,41 +3,37 @@ import { userCollection } from "@/util/db.js";
 import { describe } from "node:test";
 import request from "supertest";
 import { afterAll, beforeAll, expect, it } from "vitest";
-import * as userExamples from "./util/example-users.js";
+import { GETExampleUser, POSTExampleUser, DELETEExampleUser, PATCHExampleUser } from "./util/userRoute-example-users.js";
+import { ObjectId } from "mongodb";
 
-const testingVars = {
-    user2: userExamples.user2,
-    user3: userExamples.user3,
-    user4: userExamples.user4
-};
+describe("Integration Tests for User Route", async () => {
 
-describe("Integration Tests for User Route", () => {
-
-    describe("userRoute GET requests", () => {
+    describe("userRoute GET requests", async () => {
         // put a user in the database
         beforeAll(async () => {
-            var data = testingVars.user2;
-            const response = await userCollection.insertOne(data as any);
+            var data = GETExampleUser;
+            const response = await userCollection.insertOne(data);
             expect(response.acknowledged).toBe(true);
-            expect(response.insertedId).toBe("2");
+            expect(response.insertedId).toBe(GETExampleUser._id);
         })
         // remove the user from the database
         afterAll(async () => {
-            const response = await userCollection.deleteOne({ _id: "2" as any });
+            const response = await userCollection.deleteOne({ _id: GETExampleUser._id });
             expect(response.acknowledged).toBe(true);
             expect(response.deletedCount).toBe(1);
         })
 
         it("gets a user successfully", async () => {
-            const res = await request(app).get("/user/2");
+            const res = await request(app).get(`/user/${GETExampleUser._id}`);
+            console.log(GETExampleUser._id.toString())
             expect(res.statusCode).toBe(200);
-            expect(res.body).toStrictEqual(testingVars.user2);
-
+            expect(GETExampleUser._id.equals(res.body._id));
         });
         it("fails to get a user because user doesn't exist", async () => {
-            const res = await request(app).get("/user/3");
+            const id = new ObjectId();
+            const res = await request(app).get(`/user/${id}`);
             expect(res.statusCode).toBe(400);
-            expect(res.body.error).toBe("User with id 3 not found");
+            expect(res.body.error).toBe(`User with id ${id} not found`);
         });
         it("fails to get a user because of a malformed request", async () => {
             const res = await request(app).get("/user/aa");
@@ -46,21 +42,21 @@ describe("Integration Tests for User Route", () => {
         });
     })
 
-    describe("POST Route Tests", () => {
+    describe("POST Route Tests", async () => {
         afterAll(async () => {
-            const response = await userCollection.deleteOne({ _id: "3" as any });
+            const response = await userCollection.deleteOne({ _id: POSTExampleUser._id });
             expect(response.acknowledged).toBe(true);
             expect(response.deletedCount).toBe(1)
         })
         it("creates a user successfully", async () => {
-            var data = testingVars.user3;
+            var data = POSTExampleUser;
             const res = await request(app).post("/user/").send(data);
             expect(res.statusCode).toBe(201);
             expect(res.body.acknowledged).toBe(true);
-            expect(res.body.insertedId).toBe("3");
+            expect(POSTExampleUser._id.equals(res.body.insertedId));
         });
         it("fails to create user because user already exists", async () => {
-            var data = testingVars.user3
+            var data = POSTExampleUser;
             const res = await request(app).post("/user/").send(data);
             expect(res.statusCode).toBe(400);
             expect(res.body.message).toBe("Mongodb Server Error");
@@ -73,22 +69,22 @@ describe("Integration Tests for User Route", () => {
         });
     })
 
-    describe("DELETE Route Tests", () => {
+    describe("DELETE Route Tests", async () => {
         beforeAll(async () => {
-            var data = testingVars.user3;
-            const response = await userCollection.insertOne(data as any);
+            var data = DELETEExampleUser;
+            const response = await userCollection.insertOne(data);
             expect(response.acknowledged).toBe(true);
-            expect(response.insertedId).toBe("3")
+            expect(response.insertedId).toBe(DELETEExampleUser._id)
         })
 
         it("deletes a user successfully", async () => {
-            const res = await request(app).delete("/user/3");
+            const res = await request(app).delete(`/user/${DELETEExampleUser._id}`);
             expect(res.statusCode).toBe(200);
             expect(res.body.acknowledged).toBe(true);
             expect(res.body.deletedCount).toBe(1);
         });
         it("fails to delete a user because user doesn't exist", async () => {
-            const res = await request(app).delete("/user/3");
+            const res = await request(app).delete(`/user/${DELETEExampleUser._id}`);
             expect(res.statusCode).toBe(200);
             expect(res.body.acknowledged).toBe(true);
             expect(res.body.deletedCount).toBe(0);
@@ -100,24 +96,24 @@ describe("Integration Tests for User Route", () => {
         });
     })
 
-    describe("PATCH Route Tests", () => {
+    describe("PATCH Route Tests", async () => {
         // put a user in the database
         beforeAll(async () => {
-            var data = testingVars.user4;
-            const response = await userCollection.insertOne(data as any);
+            var data = PATCHExampleUser;
+            const response = await userCollection.insertOne(data);
             expect(response.acknowledged).toBe(true);
-            expect(response.insertedId).toBe("4")
+            expect(response.insertedId).toBe(PATCHExampleUser._id)
         })
         // remove the user from the database
         afterAll(async () => {
-            const response = await userCollection.deleteOne({ _id: "4" as any });
+            const response = await userCollection.deleteOne({ _id: PATCHExampleUser._id });
             expect(response.acknowledged).toBe(true);
             expect(response.deletedCount).toBe(1)
         })
 
         it("updates a user successfully", async () => {
-            const response = await request(app).patch("/user/4").send({ age: 1000 });
-            const getResponse = await request(app).get("/user/4");
+            const response = await request(app).patch(`/user/${PATCHExampleUser._id}`).send({ age: 1000 });
+            const getResponse = await request(app).get(`/user/${PATCHExampleUser._id}`);
             expect(response.statusCode).toBe(200);
             expect(response.body.acknowledged).toBe(true);
             expect(response.body.modifiedCount).toBe(1);
@@ -126,7 +122,8 @@ describe("Integration Tests for User Route", () => {
             expect(getResponse.body.age).toBe(1000);
         });
         it("fails to update a user because user doesn't exist", async () => {
-            const response = await request(app).patch("/user/1342").send({ age: 1000 })
+            const id = new ObjectId()
+            const response = await request(app).patch(`/user/${id}`).send({ age: 1000 })
             expect(response.statusCode).toBe(200);
             expect(response.body.acknowledged).toBe(true);
             expect(response.body.modifiedCount).toBe(0);

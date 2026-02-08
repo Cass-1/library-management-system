@@ -4,6 +4,7 @@ import { body, param, ValidationChain } from "express-validator";
 import { genericRouteErrorHandler } from "@/util/errorHandlers.js";
 import { checkValidation } from "@/util/checkValidation.js";
 import * as userService from "@/services/userService.js"
+import { ObjectId } from "mongodb";
 
 async function createUser(req: Request<{}, {}, User>, res: Response) {
     try {
@@ -20,7 +21,7 @@ async function createUser(req: Request<{}, {}, User>, res: Response) {
 async function deleteUser(req: Request, res: Response) {
     try {
         checkValidation(req);
-        const id: any = req.params.id;
+        const id = req.params.id as string;
         const response = await userService.deleteUser(id);
         res.status(200).json(response);
     }
@@ -32,7 +33,7 @@ async function deleteUser(req: Request, res: Response) {
 async function getUser(req: Request, res: Response) {
     try {
         checkValidation(req);
-        const id: any = req.params.id;
+        const id = req.params.id as string;
         const response = await userService.getUser(id);
         if (response === null) {
             throw new Error(`User with id ${id} not found`);
@@ -47,7 +48,7 @@ async function getUser(req: Request, res: Response) {
 async function patchUser(req: Request, res: Response) {
     try {
         checkValidation(req);
-        const id: any = req.params.id;
+        const id = req.params.id as string;
         const response = await userService.patchUser(id, req.body);
         res.status(200).json(response);
     }
@@ -73,18 +74,22 @@ function validate(method: string): ValidationChain[] {
             ]
         case "deleteUser":
             return [
-                // FIXME: this probably needs to be better bc ids are of type ObjectId not string
-                param("id").isInt()
+                param("id").custom((value) => {
+                    return ObjectId.isValid(value);
+                })
             ]
         case "getUser":
             return [
-                // FIXME: this probably needs to be better bc ids are of type ObjectId not string
-                param("id").isInt()
+                param("id").custom((value) => {
+                    return ObjectId.isValid(value);
+                })
             ]
         case "patchUser":
             return [
                 // FIXME: this probably needs to be better bc ids are of type ObjectId not string
-                param("id").isInt()
+                param("id").custom((value) => {
+                    return ObjectId.isValid(value);
+                })
             ]
         default:
             return []
