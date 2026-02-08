@@ -6,7 +6,7 @@ import { afterAll, beforeAll, expect, it } from "vitest";
 import { GETExampleUser, POSTExampleUser, DELETEExampleUser, PATCHExampleUser } from "./util/userRoute-example-users.js";
 import { ObjectId } from "mongodb";
 
-describe("Integration Tests for User Route", async () => {
+describe("Functional Tests for User Route", async () => {
 
     describe("userRoute GET requests", async () => {
         // put a user in the database

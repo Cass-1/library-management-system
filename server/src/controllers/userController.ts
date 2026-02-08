@@ -57,46 +57,41 @@ async function patchUser(req: Request, res: Response) {
     }
 }
 
-// middleware used by user router
-// https://www.freecodecamp.org/news/how-to-make-input-validation-simple-and-clean-in-your-express-js-app-ea9b5ff5a8a7/
-function validate(method: string): ValidationChain[] {
-    switch (method) {
-        case "createUser":
-            // TODO: improve the validation here
-            return [
-                body("_id").customSanitizer((value) => {
-                    return new ObjectId(value);
-                }),
-                body("role").exists(),
-                body("name").exists(),
-                body("age").exists(),
-                body("enrollment_date").exists(),
-                body("fines").exists(),
-                body("books").exists(),
-                body("email").exists()
-            ]
-        case "deleteUser":
-            return [
-                param("id").custom((value) => {
-                    return ObjectId.isValid(value);
-                })
-            ]
-        case "getUser":
-            return [
-                param("id").custom((value) => {
-                    return ObjectId.isValid(value);
-                })
-            ]
-        case "patchUser":
-            return [
-                // FIXME: this probably needs to be better bc ids are of type ObjectId not string
-                param("id").custom((value) => {
-                    return ObjectId.isValid(value);
-                })
-            ]
-        default:
-            return []
-    }
+function validateCreateUser(): ValidationChain[] {
+    return [
+        body("_id").customSanitizer((value) => {
+            return new ObjectId(value);
+        }),
+        body("role").exists(),
+        body("name").exists(),
+        body("age").exists(),
+        body("enrollment_date").exists(),
+        body("fines").exists(),
+        body("books").exists(),
+        body("email").exists()
+    ]
+}
+function validateDeleteUser(): ValidationChain[] {
+    return [
+        param("id").custom((value) => {
+            return ObjectId.isValid(value);
+        })
+    ]
+}
+function validateGetUser(): ValidationChain[] {
+    return [
+        param("id").custom((value) => {
+            return ObjectId.isValid(value);
+        })
+    ]
+}
+function validatePatchUser(): ValidationChain[] {
+    return [
+        // FIXME: this probably needs to be better bc ids are of type ObjectId not string
+        param("id").custom((value) => {
+            return ObjectId.isValid(value);
+        })
+    ]
 }
 
 export {
@@ -104,5 +99,8 @@ export {
     deleteUser,
     getUser,
     patchUser,
-    validate
+    validateCreateUser,
+    validateDeleteUser,
+    validateGetUser,
+    validatePatchUser
 }

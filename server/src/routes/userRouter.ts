@@ -2,9 +2,10 @@ import express, { Router } from "express"
 import * as UserController from "@controllers/userController.js"
 
 const router = express.Router();
-router.post("/", UserController.validate("createUser"), UserController.createUser);
-router.delete("/:id", UserController.validate("deleteUser"), UserController.deleteUser);
-router.get("/:id", UserController.validate("getUser"), UserController.getUser);
-router.patch("/:id", UserController.validate("patchUser"), UserController.patchUser);
+//TODO: check this to make sure () are needed
+router.post("/", UserController.validateCreateUser(), UserController.createUser);
+router.delete("/:id", UserController.validateDeleteUser(), UserController.deleteUser);
+router.get("/:id", UserController.validateGetUser(), UserController.getUser);
+router.patch("/:id", UserController.validatePatchUser(), UserController.patchUser);
 
 export default router;
