@@ -3,7 +3,7 @@ import request from "supertest";
 import { app } from "@/server.js";
 import { ObjectId } from "mongodb";
 import { bookCollection } from "@/util/db.js";
-import { createExampleBook, readExampleBook, updateExampleBook, deleteExampleBook } from "./util/bookRouteExamples.js";
+import { createExampleBook, readExampleBook, updateExampleBook, deleteExampleBook } from "./util/bookRouterExamples.js";
 
 
 describe("bookRouter functional tests", () => {
@@ -11,7 +11,7 @@ describe("bookRouter functional tests", () => {
         describe("book CRUD routes", () => {
             describe("CREATE", () => {
                 afterAll(async () => {
-                    const response = await bookCollection.deleteOne({ _id: createExampleUser._id });
+                    const response = await bookCollection.deleteOne({ _id: createExampleBook._id });
                     expect(response.acknowledged).toBe(true);
                     expect(response.deletedCount).toBe(1)
                 })
@@ -38,14 +38,14 @@ describe("bookRouter functional tests", () => {
             describe("READ", () => {
                 // put a user in the database
                 beforeAll(async () => {
-                    var data = readExampleUser;
+                    var data = readExampleBook;
                     const response = await bookCollection.insertOne(data);
                     expect(response.acknowledged).toBe(true);
-                    expect(response.insertedId).toBe(readExampleUser._id);
+                    expect(response.insertedId).toBe(readExampleBook._id);
                 })
                 // remove the user from the database
                 afterAll(async () => {
-                    const response = await bookCollection.deleteOne({ _id: readExampleUser._id });
+                    const response = await bookCollection.deleteOne({ _id: readExampleBook._id });
                     expect(response.acknowledged).toBe(true);
                     expect(response.deletedCount).toBe(1);
                 })
