@@ -12,9 +12,12 @@ try {
 }
 let db: Db | undefined = conn?.db(DATABASE_NAME);
 let userCol = db?.collection("users");
+let bookCol = db?.collection("books");
 
 assert(db !== undefined);
 assert(userCol !== undefined);
+assert(bookCol !== undefined);
 
 export const mongoDB = db;
 export const userCollection = userCol;
+export const bookCollection = bookCol;
