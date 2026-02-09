@@ -1,49 +1,54 @@
+import { Book, BookType } from "@/models/Book.js";
 import { ObjectId } from "mongodb";
 
-export const createExampleBook = {
-    "_id": new ObjectId(),
-    "isbn": "2309329009",
-    "title": "CREATE Example Book",
-    "author": "Random Person",
-    "genre": "YA",
-    "format": "print",
-    "publisher": "Best Publisher Publishing House",
-    "sc_id": "12/",
-    "available": true
-}
+export const createExampleBook =
+    new Book(
+        new ObjectId(),
+        "2309329009",
+        "CREATE Example Book",
+        "Random Person",
+        "YA",
+        BookType.PRINT,
+        "Best Publisher Publishing House",
+        "12/",
+        true
+    );
 
-export const readExampleBook = {
-    "_id": new ObjectId(),
-    "isbn": "2309329009",
-    "title": "READ Example Book",
-    "author": "Random Person",
-    "genre": "YA",
-    "format": "print",
-    "publisher": "Best Publisher Publishing House",
-    "sc_id": "12/",
-    "available": true
-}
+export const readExampleBook =
+    new Book(
+        new ObjectId(),
+        "2309329009",
+        "READ Example Book",
+        "Random Person",
+        "YA",
+        BookType.PRINT,
+        "Best Publisher Publishing House",
+        "12/",
+        true
+    );
 
-export const updateExampleBook = {
-    "_id": new ObjectId(),
-    "isbn": "2309329009",
-    "title": "UPDATE Example Book",
-    "author": "Random Person",
-    "genre": "YA",
-    "format": "print",
-    "publisher": "Best Publisher Publishing House",
-    "sc_id": "12/",
-    "available": true
-}
+export const updateExampleBook =
+    new Book(
+        new ObjectId(),
+        "2309329009",
+        "UPDATE Example Book",
+        "Random Person",
+        "YA",
+        BookType.PRINT,
+        "Best Publisher Publishing House",
+        "12/",
+        true
+    );
 
-export const deleteExampleBook = {
-    "_id": new ObjectId(),
-    "isbn": "2309329009",
-    "title": "DELETE Example Book",
-    "author": "Random Person",
-    "genre": "YA",
-    "format": "print",
-    "publisher": "Best Publisher Publishing House",
-    "sc_id": "12/",
-    "available": true
-}
+export const deleteExampleBook =
+    new Book(
+        new ObjectId(),
+        "2309329009",
+        "DELETE Example Book",
+        "Random Person",
+        "YA",
+        BookType.PRINT,
+        "Best Publisher Publishing House",
+        "12/",
+        true
+    );

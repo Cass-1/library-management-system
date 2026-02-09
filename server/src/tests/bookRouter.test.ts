@@ -36,14 +36,12 @@ describe("bookRouter functional tests", () => {
                 })
             })
             describe("READ", () => {
-                // put a user in the database
                 beforeAll(async () => {
                     var data = readExampleBook;
                     const response = await bookCollection.insertOne(data);
                     expect(response.acknowledged).toBe(true);
                     expect(response.insertedId).toBe(readExampleBook._id);
                 })
-                // remove the user from the database
                 afterAll(async () => {
                     const response = await bookCollection.deleteOne({ _id: readExampleBook._id });
                     expect(response.acknowledged).toBe(true);
@@ -68,37 +66,41 @@ describe("bookRouter functional tests", () => {
                 })
             })
             describe("UPDATE", () => {
-                // put a user in the database
                 beforeAll(async () => {
                     var data = updateExampleBook;
                     const response = await bookCollection.insertOne(data);
                     expect(response.acknowledged).toBe(true);
                     expect(response.insertedId).toBe(updateExampleBook._id)
                 })
-                // remove the user from the database
                 afterAll(async () => {
                     const response = await bookCollection.deleteOne({ _id: updateExampleBook._id });
                     expect(response.acknowledged).toBe(true);
                     expect(response.deletedCount).toBe(1)
                 })
                 it("success", async () => {
-                    var data = updateExampleBook;
-                    const res = await request(app).post("/books/").send(data);
-                    expect(res.statusCode).toBe(201);
-                    expect(res.body.acknowledged).toBe(true);
-                    expect(updateExampleBook._id.equals(res.body.insertedId));
+                    const response = await request(app).patch(`/books/${updateExampleBook._id}`).send({ author: "Hello World" });
+                    const getResponse = await request(app).get(`/books/${updateExampleBook._id}`);
+                    expect(response.statusCode).toBe(200);
+                    expect(response.body.acknowledged).toBe(true);
+                    expect(response.body.modifiedCount).toBe(1);
+                    expect(response.body.upsertedCount).toBe(0);
+                    expect(response.body.matchedCount).toBe(1);
+                    expect(getResponse.body.author).toBe("Hello World");
                 })
                 it("fail - book doesn't exist", async () => {
-                    var data = updateExampleBook;
-                    const res = await request(app).post("/books/").send(data);
-                    expect(res.statusCode).toBe(400);
-                    expect(res.body.message).toBe("Mongodb Server Error");
+                    const id = new ObjectId()
+                    const response = await request(app).patch(`/books/${id}`).send({ author: "Hello World" })
+                    expect(response.statusCode).toBe(200);
+                    expect(response.body.acknowledged).toBe(true);
+                    expect(response.body.modifiedCount).toBe(0);
+                    expect(response.body.upsertedCount).toBe(0);
+                    expect(response.body.matchedCount).toBe(0);
+                    expect(response.body.upsertedId).toBe(null);
                 })
                 it("fail - malformed request", async () => {
-                    var data = { "utter": "nonsense" };
-                    const res = await request(app).post("/books/").send(data);
-                    expect(res.statusCode).toBe(422);
-                    expect(res.body.message).toBe("Validation Chain Error");
+                    const response = await request(app).patch("/books/aaaaaa").send({ age: 1000 })
+                    expect(response.statusCode).toBe(422);
+                    expect(response.body.message).toBe("Validation Chain Error");
                 })
             })
             describe("DELETE", () => {

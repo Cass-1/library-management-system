@@ -2,6 +2,7 @@ import express from 'express'
 import { PORT } from "@util/infisical.js";
 import bodyParser from "body-parser";
 import userRouter from "@/routes/userRouter.js"
+import bookRouter from "@/routes/bookRouter.js"
 
 export const app = express()
 app.use(bodyParser.json());
@@ -11,6 +12,7 @@ const server = app.listen(PORT, () => {
 })
 
 app.use("/user", userRouter);
+app.use("/books", bookRouter);
 
 // on server shutdown
 // process.on('SIGTERM', () => {
