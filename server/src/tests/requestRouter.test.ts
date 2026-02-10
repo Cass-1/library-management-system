@@ -3,8 +3,7 @@ import request from "supertest";
 import { app } from "@/server.js";
 import { bookCollection } from "@/util/db.js";
 import { ObjectId } from "mongodb";
-import { requestExampleBook } from "";
-import { createExampleRequest, readExampleRequest, deleteExampleRequest } from "";
+import { requestExampleBook, createExampleRequest, readExampleRequest, deleteExampleRequest } from "@tests/util/requestRouterExamples.js";
 
 
 beforeAll(async () => {
