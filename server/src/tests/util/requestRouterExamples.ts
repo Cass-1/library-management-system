@@ -6,4 +6,4 @@ export const requestExampleBook = new Book(new ObjectId(), "1234", "Request Exam
 const userId = new ObjectId();
 export const createExampleRequest = new BookRequest(requestExampleBook._id, userId, new Date(), new Date(2), true);
 export const readExampleRequest = new BookRequest(requestExampleBook._id, userId, new Date(), new Date(2), true);
-export const deleteExampleRequest = new BookRequest(requestExampleBook._id, userId, new Date(), new Date(2), true ;)
+export const deleteExampleRequest = new BookRequest(requestExampleBook._id, userId, new Date(), new Date(2), true);
