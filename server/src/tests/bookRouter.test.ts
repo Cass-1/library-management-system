@@ -125,38 +125,5 @@ describe("bookRouter functional tests", () => {
             expect(res.statusCode).toBe(422);
             expect(res.body.message).toBe("Validation Chain Error");
         })
-        describe("request CRUD routes", () => {
-            describe("CREATE", () => {
-                it("success")
-                it("fail - request already exists")
-                it("fail - malformed request")
-            })
-            describe("READ", () => {
-                it("success")
-                it("fail - request doesn't exist")
-                it("fail - malformed request")
-            })
-            describe("UPDATE", () => {
-                it("success")
-                it("fail - request doesn't exist")
-                it("fail - malformed request")
-            })
-            describe("DELETE", () => {
-                it("success")
-                it("fail - request doesn't exist")
-                it("fail - malformed request")
-            })
-        })
-    })
-    //TODO: finish writing testing outline 
-    describe("bookRouter other routes", () => {
-        describe("request book", () => {
-            it("book is available")
-            it("book has waitline")
-            describe("user can't checkout", () => {
-                it("fail - user has overdue books")
-                it("fail - user has max amount of books")
-            })
-        })
     })
 })
