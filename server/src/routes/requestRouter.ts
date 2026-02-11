@@ -1,7 +1,6 @@
 import express from "express"
 import * as RequestController from "@controllers/requestController.js"
 
-
 const router = express.Router();
 
 router.post("/:book_id", RequestController.validateCreateRequest(), RequestController.createRequest);

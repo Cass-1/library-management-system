@@ -1,4 +1,3 @@
-import { BookRequest, SCID } from "@/models/BookRequest.js";
 import { checkValidation } from "@/util/checkValidation.js";
 import { genericRouteErrorHandler } from "@/util/errorHandlers.js";
 import { Request, Response } from "express";
@@ -45,6 +44,25 @@ async function getRequest(req: Request, res: Response) {
     }
 }
 
+async function getAllBookRequests(req: Request, res: Response) {
+    try {
+        checkValidation(req);
+        const id = req.params.book_id as string;
+        const response = await requestService.getAllBookRequests(id);
+        if (response === null) {
+            throw new Error(`Request with id ${id} not found`);
+        }
+        res.status(200).json(response);
+    }
+    catch (err) {
+        genericRouteErrorHandler(err, res);
+    }
+}
+
+function deleteAllBookRequests(req: Request, res: Response) {
+    throw new Error("Function not implemented.");
+}
+
 function validateCreateRequest(): ValidationChain[] {
     return [
         param("book_id").custom((value) => {
@@ -57,13 +75,7 @@ function validateCreateRequest(): ValidationChain[] {
         //TODO: figure out how to get the date check to work
         body("requestDate").exists(),
         body("reservationEndDate").exists(),
-        body("scid").exists(),
-        body("scid").customSanitizer((value) => {
-            if (value !== undefined) {
-                return (value as SCID).Id;
-            }
-            return undefined;
-        }),
+        body("scid").isString(),
         body("active").isBoolean(),
     ]
 }
@@ -88,6 +100,15 @@ function validateGetRequest(): ValidationChain[] {
     ]
 }
 
+
+function validateDeleteAllBookRequests(): ValidationChain[] {
+    throw new Error("Function not implemented.");
+}
+function validateGetAllBookRequests(): ValidationChain[] {
+    throw new Error("Function not implemented.");
+}
+
+
 export {
     createRequest,
     deleteRequest,
@@ -95,4 +116,9 @@ export {
     validateCreateRequest,
     validateDeleteRequest,
     validateGetRequest,
+    getAllBookRequests,
+    deleteAllBookRequests,
+    validateDeleteAllBookRequests,
+    validateGetAllBookRequests
 }
+

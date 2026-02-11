@@ -32,9 +32,7 @@ describe("Request CREATE", () => {
         const getResponse = await request(app).get(`/requests/${requestExampleBook._id}/${createExampleRequest._id}`);
         expect(res.statusCode).toBe(201);
         expect(res.body.acknowledged).toBe(true);
-        expect(getResponse.body.scid.bookId).equals(requestExampleBook._id.toString());
-        expect(getResponse.body.scid.requestId).equals(createExampleRequest._id.toString());
-        expect(getResponse.body.scid.Id).toBe(`${requestExampleBook._id}/${createExampleRequest._id}`);
+        expect(getResponse.body.scid).toBe(`${requestExampleBook._id}/${createExampleRequest._id}`);
     })
     it("fail - request already exists", async () => {
         var data = createExampleRequest;
@@ -68,9 +66,7 @@ describe("Request READ", () => {
         const res = await request(app).get(`/requests/${requestExampleBook._id}/${readExampleRequest._id}`);
         expect(res.statusCode).toBe(200);
         expect(readExampleRequest._id.equals(res.body._id));
-        expect(res.body.scid.bookId).equals(requestExampleBook._id.toString());
-        expect(res.body.scid.requestId).equals(readExampleRequest._id.toString());
-        expect(res.body.scid.Id).toBe(`${requestExampleBook._id}/${readExampleRequest._id}`);
+        expect(res.body.scid).toBe(`${requestExampleBook._id}/${readExampleRequest._id}`);
     })
     it("fail - request doesn't exist", async () => {
         const id = new ObjectId();

@@ -13,11 +13,9 @@ export async function deleteRequest(id: string) {
 
 export async function getRequest(id: string): Promise<BookRequest | null> {
     const objId = new ObjectId(id);
-    const object = await bookCollection.findOne({ _id: objId });
-    if (object === null) {
-        return null;
-    }
-    else {
-        return new BookRequest(object.bookId, object.userId, object._id, object.requestDate, object.reservationEndDate, object.active);
-    }
+    return await bookCollection.findOne({ _id: objId }) as BookRequest;
+}
+
+export function getAllBookRequests(id: string) {
+    throw new Error("Function not implemented.");
 }
