@@ -12,23 +12,24 @@ export class SCID {
         this.Id = `${this.bookId.toString()}/${stringRequestId}`;
     }
 
-
 }
 
 export class BookRequest {
     readonly _id: ObjectId;
+    readonly bookId: ObjectId;
     readonly userId: ObjectId;
     readonly requestDate: Date;
     readonly reservationEndDate: Date;
     readonly scid: SCID;
     active: boolean;
 
-    constructor(bookId: ObjectId, userId: ObjectId, requestDate?: Date, reservationEndDate?: Date, active?: boolean) {
+    constructor(bookId: ObjectId, userId: ObjectId, _id?: ObjectId, requestDate?: Date, reservationEndDate?: Date, active?: boolean) {
+        this.bookId = bookId;
         this.userId = userId
         this.requestDate = requestDate ?? new Date()
         this.reservationEndDate = reservationEndDate ?? new Date()
         this.active = active ?? true;
-        this._id = new ObjectId();
+        this._id = _id ?? new ObjectId();
         this.scid = new SCID(bookId, this._id);
     }
 }
