@@ -16,6 +16,11 @@ export async function getRequest(id: string): Promise<BookRequest | null> {
     return await bookCollection.findOne({ _id: objId }) as BookRequest;
 }
 
-export function getAllBookRequests(id: string) {
-    throw new Error("Function not implemented.");
+export async function getAllBookRequests(id: string) {
+    const results = await bookCollection.find({ bookId: new ObjectId(id) });
+    return results.toArray();
+}
+
+export async function deleteAllBookRequests(id: string) {
+    return await bookCollection.deleteMany({ bookId: new ObjectId(id) });
 }

@@ -108,6 +108,7 @@ describe("Request DELETE", () => {
     })
 })
 
+
 describe("get all requests for a specific book", () => {
     beforeAll(async () => {
         await bookCollection.insertOne(deleteExampleRequest);
@@ -120,23 +121,54 @@ describe("get all requests for a specific book", () => {
         await bookCollection.deleteOne({ _id: createExampleRequest._id });
     })
     it("success", async () => {
-        const res = await request(app).get(`/requests/${requestExampleBook._id}/${deleteExampleRequest._id}`);
+        const res = await request(app).get(`/requests/${requestExampleBook._id}`);
+        expect(res.statusCode).toBe(200);
+        expect(res.body).toHaveLength(3);
+        var idArray = [deleteExampleRequest._id.toString(), readExampleRequest._id.toString(), createExampleRequest._id.toString()]
+        expect(idArray).toContain(res.body[0]._id);
+        idArray = idArray.filter(x => x !== res.body[0]._id);
+        expect(idArray).toContain(res.body[1]._id);
+        idArray = idArray.filter(x => x !== res.body[1]._id);
+        expect(idArray).toContain(res.body[2]._id);
+    })
+    it("success - book doesn't exist", async () => {
+        const res = await request(app).get(`/requests/${new ObjectId()}`);
+        expect(res.body).toStrictEqual([]);
+    })
+    it("fail - malformed request", async () => {
+        const res = await request(app).get(`/requests/asdf`);
+        expect(res.statusCode).toBe(422);
+        expect(res.body.message).toBe("Validation Chain Error");
+    })
+})
+
+describe("delete all requests for a specific book", () => {
+    beforeEach(async () => {
+        await bookCollection.insertOne(deleteExampleRequest);
+        await bookCollection.insertOne(readExampleRequest);
+        await bookCollection.insertOne(createExampleRequest);
+    })
+    afterAll(async () => {
+        await bookCollection.deleteOne({ _id: deleteExampleRequest._id });
+        await bookCollection.deleteOne({ _id: readExampleRequest._id });
+        await bookCollection.deleteOne({ _id: createExampleRequest._id });
+    })
+    it("success", async () => {
+        const res = await request(app).delete(`/requests/${requestExampleBook._id}`);
         expect(res.statusCode).toBe(200);
         expect(res.body.acknowledged).toBe(true);
-        expect(res.body.deletedCount).toBe(1);
+        expect(res.body.deletedCount).toBe(3);
     })
     it("fail - request doesn't exist", async () => {
         await request(app).delete(`/requests/${requestExampleBook._id}`);
-        const res = await request(app).get(`/requests/${requestExampleBook._id}`);
+        const res = await request(app).delete(`/requests/${requestExampleBook._id}`);
         expect(res.statusCode).toBe(200);
         expect(res.body.acknowledged).toBe(true);
         expect(res.body.deletedCount).toBe(0);
     })
     it("fail - malformed request", async () => {
-        const res = await request(app).get(`/requests/${requestExampleBook._id}`);
+        const res = await request(app).delete(`/requests/aaa`);
         expect(res.statusCode).toBe(422);
-        expect(res.body).toBeInstanceOf("array");
-        //FIXME: this might be incorrect
-        expect(res.body).toEqual(expect.arrayContaining([deleteExampleRequest, readExampleRequest, createExampleRequest]));
+        expect(res.body.message).toBe("Validation Chain Error");
     })
 })

@@ -59,8 +59,19 @@ async function getAllBookRequests(req: Request, res: Response) {
     }
 }
 
-function deleteAllBookRequests(req: Request, res: Response) {
-    throw new Error("Function not implemented.");
+async function deleteAllBookRequests(req: Request, res: Response) {
+    try {
+        checkValidation(req);
+        const id = req.params.book_id as string;
+        const response = await requestService.deleteAllBookRequests(id);
+        if (response === null) {
+            throw new Error(`Request with id ${id} not found`);
+        }
+        res.status(200).json(response);
+    }
+    catch (err) {
+        genericRouteErrorHandler(err, res);
+    }
 }
 
 function validateCreateRequest(): ValidationChain[] {
@@ -102,10 +113,18 @@ function validateGetRequest(): ValidationChain[] {
 
 
 function validateDeleteAllBookRequests(): ValidationChain[] {
-    throw new Error("Function not implemented.");
+    return [
+        param("book_id").custom((value) => {
+            return ObjectId.isValid(value);
+        })
+    ]
 }
 function validateGetAllBookRequests(): ValidationChain[] {
-    throw new Error("Function not implemented.");
+    return [
+        param("book_id").custom((value) => {
+            return ObjectId.isValid(value);
+        })
+    ]
 }
 
 
