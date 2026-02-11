@@ -1,6 +1,6 @@
 import { ValidationChainError } from "@/util/customErrors.js";
 import { genericRouteErrorHandler } from "@/util/errorHandlers.js";
-import { expressResponseMock } from "./util/expressResponseMock.js";
+import { expressResponseMock } from "@tests/util/expressResponseMock.js";
 import { vi, beforeEach, describe, it, expect } from "vitest";
 import { ErrorDescription, MongoServerError } from "mongodb";
 

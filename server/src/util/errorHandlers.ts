@@ -1,4 +1,4 @@
-import { ValidationChainError } from "./customErrors.js";
+import { ValidationChainError } from "@util/customErrors.js";
 import { Response } from 'express';
 import { MongoServerError } from "mongodb";
 

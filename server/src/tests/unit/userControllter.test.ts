@@ -1,6 +1,6 @@
 import * as userController from "@controllers/userController.js";
 import { vi, beforeEach, describe, expect, it, Mock } from "vitest";
-import { expressResponseMock } from "./util/expressResponseMock.js";
+import { expressResponseMock } from "@tests/util/expressResponseMock.js";
 
 // https://github.com/vitest-dev/vitest/discussions/3589
 const serviceMocks = vi.hoisted(() => {
@@ -12,7 +12,7 @@ const serviceMocks = vi.hoisted(() => {
     }
 });
 
-vi.mock("../services/userService.js", () => {
+vi.mock(import("@services/userService.js"), () => {
     return {
         getUser: serviceMocks.getUser,
         deleteUser: serviceMocks.deleteUser,
