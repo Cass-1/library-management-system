@@ -3,7 +3,7 @@ import request from "supertest";
 import { app } from "@/server.js";
 import { ObjectId } from "mongodb";
 import { bookCollection } from "@/util/db.js";
-import { createExampleBook, readExampleBook, updateExampleBook, deleteExampleBook } from "./util/bookRouterExamples.js";
+import { createExampleBook, readExampleBook, updateExampleBook, deleteExampleBook } from "@tests/util/bookRouterExamples.js";
 
 
 describe("bookRouter functional tests", () => {

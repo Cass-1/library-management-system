@@ -3,7 +3,7 @@ import { userCollection } from "@/util/db.js";
 import { describe } from "node:test";
 import request from "supertest";
 import { afterAll, beforeAll, expect, it } from "vitest";
-import { GETExampleUser, POSTExampleUser, DELETEExampleUser, PATCHExampleUser } from "./util/userRoute-example-users.js";
+import { GETExampleUser, POSTExampleUser, DELETEExampleUser, PATCHExampleUser } from "@tests/util/userRoute-example-users.js";
 import { ObjectId } from "mongodb";
 
 describe("Functional Tests for User Route", async () => {
