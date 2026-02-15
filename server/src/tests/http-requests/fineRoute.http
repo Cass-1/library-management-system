@@ -1,0 +1,39 @@
+POST http://localhost:3000/user/
+Content-Type: application/json 
+
+{
+    "role": "member",
+    "name": "John Doe",
+    "age": 12.1,
+    "enrollment_date": "2012-04-23T18:25:43.511Z",
+    "fines": [
+        {
+            "daily_rate": 1.1,
+            "book_id": "12",
+            "_id": "90",
+            "dateIssued": "10-20-2020"
+        }
+    ],
+    "books": [
+        {
+            "book_id": "1234",
+            "title": "A Very Interesting Book",
+            "author": "George Greggory"
+        }
+    ],
+    "email": "me@site.com",
+    "message": "HTTP Test User"
+}
+###
+
+POST http://localhost:3000/fines/1
+Content-Type: application/json 
+
+{
+    "_id": "69700f3ccf9c7b91609c3830",
+    "daily_rate": 1.1,
+    "book_id": "69700f3ccf9c7b91609c3830",
+    "dateIssued": "10-21-1000",
+    "message": "HTTP Test Fine"
+}
+###

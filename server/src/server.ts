@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import userRouter from "@/routes/userRouter.js"
 import bookRouter from "@/routes/bookRouter.js"
 import requestRouter from "@routes/requestRouter.js"
+import fineRouter from "@routes/fineRouter.js"
 
 export const app = express()
 app.use(bodyParser.json());
@@ -15,6 +16,7 @@ const server = app.listen(PORT, () => {
 app.use("/user", userRouter);
 app.use("/books", bookRouter);
 app.use("/requests", requestRouter);
+app.use("/fines", fineRouter);
 
 // on server shutdown
 // process.on('SIGTERM', () => {
