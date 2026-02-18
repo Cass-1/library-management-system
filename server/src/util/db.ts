@@ -1,24 +1,32 @@
 import { Collection, Db, MongoClient } from "mongodb";
 import { ATLAS_URI, DATABASE_NAME } from "@util/infisical.js";
-import { strict as assert } from 'node:assert';
 import { User } from "@/models/User.js";
+import { Book } from "@/models/Book.js";
+import { BookRequest } from "@/models/BookRequest.js";
+import assert from "node:assert";
 
 // https://www.mongodb.com/resources/languages/express-mongodb-rest-api-tutorial
-const client = new MongoClient(ATLAS_URI);
-let conn;
-try {
-    conn = await client.connect();
-} catch (e) {
-    console.error(e);
+
+export class Database {
+    private client: MongoClient;
+    private databaseName: string
+    private mongoDB?: Db;
+    public UserCollection?: Collection<User>;
+    public BookCollection?: Collection<Book>;
+    constructor(atlasUri: string, databaseName: string) {
+        this.client = new MongoClient(atlasUri);
+        this.databaseName = databaseName;
+    }
+
+    async Connect() {
+        try {
+            await this.client.connect();
+            console.log("Connected to Database");
+        } catch (e) {
+            console.error(e);
+        }
+        this.mongoDB = this.client.db(this.databaseName);
+        this.UserCollection = this.mongoDB.collection("users");
+        this.BookCollection = this.mongoDB.collection("books");
+    }
 }
-let db: Db | undefined = conn?.db(DATABASE_NAME);
-let userCol: Collection<User> | undefined = db?.collection("users");
-let bookCol = db?.collection("books");
-
-assert(db !== undefined);
-assert(userCol !== undefined);
-assert(bookCol !== undefined);
-
-export const mongoDB = db;
-export const userCollection = userCol;
-export const bookCollection = bookCol;

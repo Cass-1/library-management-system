@@ -1,31 +1,81 @@
-import express from 'express'
-import { PORT } from "@util/infisical.js";
+import express, { Router } from 'express'
+import { ATLAS_URI, DATABASE_NAME, PORT } from "@util/infisical.js";
 import bodyParser from "body-parser";
-import userRouter from "@/routes/userRouter.js"
-import bookRouter from "@/routes/bookRouter.js"
-import requestRouter from "@routes/requestRouter.js"
-import fineRouter from "@routes/fineRouter.js"
+import { Database } from './util/db.js';
+import { BookRouter } from '@routes/bookRouter.js';
+import assert from 'node:assert';
+import { BookService } from '@services/bookService.js';
+import { BookController } from '@controllers/bookController.js';
 
-export const app = express()
-app.use(bodyParser.json());
+export class BackendServer {
+    public App: any;
+    public repository?: Database;
+    private bookRouter?: BookRouter;
+    // private userRouter?: UserRouter;
+    // private requestRouter?: RequestRouter;
+    // private fineRouter?: FineRouter;
 
-const server = app.listen(PORT, () => {
-    console.log(`app listening on port ${PORT}`)
-})
+    //TODO: test this to see if it has expected behavior when there is no database connection
+    async Setup() {
+        this.App = express();
+        try {
+            this.repository = new Database(ATLAS_URI, DATABASE_NAME);
+            await this.repository.Connect();
 
-app.use("/user", userRouter);
-app.use("/books", bookRouter);
-app.use("/requests", requestRouter);
-app.use("/fines", fineRouter);
+            assert(this.repository.BookCollection);
+            const bookService = new BookService(this.repository.BookCollection);
+            // const requestService = new RequestService(this.repository.BookCollection);
+            // const userService = new UserService(this.repository.UserCollection);
+            // const fineService = new FineService(this.repository.UserCollection);
 
-// on server shutdown
-// process.on('SIGTERM', () => {
-//     debug('SIGTERM signal received: closing HTTP server')
-//     server.close(() => {
-//         debug('HTTP server closed')
-//     })
-// })
+            const bookController = new BookController(bookService);
+            // const userController = new UserController(requestService);
+            // const requestController = new RequestController(userService);
+            // const fineController = new FineController(fineService);
 
-app.get("/", async (req, res) => {
-    res.send("hello")
-})
+            this.bookRouter = new BookRouter(bookController);
+            // this.userRouter = new UserRouter(userController);
+            // this.requestRouter = new RequestRouter(requestController);
+            // this.fineRouter = new FineRouter(fineController);
+        }
+        catch (err: any) {
+            console.log({ error: err });
+        }
+    }
+
+    async Run() {
+        this.App.use(bodyParser.json());
+        //TODO: think if i can fix the ! here
+        assert(this.bookRouter);
+        this.App.use("/books", this.bookRouter.Router);
+        // this.App.use("/user", this.userRouter.Router);
+        // this.App.use("/requests", this.requestRouter.Router);
+        // this.App.use("/fines", this.fineRouter.Router);
+        this.App.use(this.errorHandler);
+
+        const server = this.App.listen(PORT, () => {
+            console.log(`app listening on port ${PORT}`)
+        })
+        // on server shutdown
+        process.on('SIGTERM', () => {
+            console.log('SIGTERM signal received: closing HTTP server')
+            server.close(() => {
+                console.log('HTTP server closed')
+            })
+        })
+
+        this.App.get("/", async (req: any, res: any) => {
+            res.send("hello")
+        })
+
+    }
+    // generic express error handler (https://expressjs.com/en/guide/error-handling.html)
+    private errorHandler(err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
+        res.status(500)
+        res.render('error', { error: err })
+    }
+}
+
+export const server = new BackendServer();
+await server.Setup();
+await server.Run();
