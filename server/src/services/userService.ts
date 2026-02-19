@@ -1,37 +1,37 @@
 import { User } from "@/models/User.js";
-import { userCollection } from "@/util/db.js";
-import { ObjectId } from "mongodb";
+import { Collection, ObjectId } from "mongodb";
 
-async function createUser(user: User) {
-    return await userCollection.insertOne(user);
-}
+export class UserService {
+    private repository;
 
-async function deleteUser(id: string) {
-    const objId = new ObjectId(id);
-    return await userCollection.deleteOne({ _id: objId });
-}
+    constructor(repository: Collection<User>) {
+        this.repository = repository;
+    }
 
-async function getUser(id: string): Promise<User | null> {
-    const objId = new ObjectId(id);
-    return await userCollection.findOne({ _id: objId }) as User;
-}
+    createUser = async (user: User) => {
+        return await this.repository.insertOne(user);
+    }
 
-async function patchUser(id: string, data: Object) {
-    const objId = new ObjectId(id);
-    const query = {
-        "_id": objId
-    };
-    const update = {
-        "$set": {
-            ...data
-        }
-    };
-    return await userCollection.updateOne(query, update);
-}
+    deleteUser = async (id: string) => {
+        const objId = new ObjectId(id);
+        return await this.repository.deleteOne({ _id: objId });
+    }
 
-export {
-    createUser,
-    deleteUser,
-    getUser,
-    patchUser
+    getUser = async (id: string): Promise<User | null> => {
+        const objId = new ObjectId(id);
+        return await this.repository.findOne({ _id: objId }) as User;
+    }
+
+    patchUser = async (id: string, data: Object) => {
+        const objId = new ObjectId(id);
+        const query = {
+            "_id": objId
+        };
+        const update = {
+            "$set": {
+                ...data
+            }
+        };
+        return await this.repository.updateOne(query, update);
+    }
 }

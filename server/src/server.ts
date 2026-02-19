@@ -6,12 +6,15 @@ import { BookRouter } from '@routes/bookRouter.js';
 import assert from 'node:assert';
 import { BookService } from '@services/bookService.js';
 import { BookController } from '@controllers/bookController.js';
+import { UserService } from '@services/userService.js';
+import { UserController } from '@controllers/userController.js';
+import { UserRouter } from '@routes/userRouter.js';
 
 export class BackendServer {
     public App: any;
     public repository?: Database;
     private bookRouter?: BookRouter;
-    // private userRouter?: UserRouter;
+    private userRouter?: UserRouter;
     // private requestRouter?: RequestRouter;
     // private fineRouter?: FineRouter;
 
@@ -23,18 +26,19 @@ export class BackendServer {
             await this.repository.Connect();
 
             assert(this.repository.BookCollection);
+            assert(this.repository.UserCollection);
             const bookService = new BookService(this.repository.BookCollection);
+            const userService = new UserService(this.repository.UserCollection);
             // const requestService = new RequestService(this.repository.BookCollection);
-            // const userService = new UserService(this.repository.UserCollection);
             // const fineService = new FineService(this.repository.UserCollection);
 
             const bookController = new BookController(bookService);
-            // const userController = new UserController(requestService);
+            const userController = new UserController(userService);
             // const requestController = new RequestController(userService);
             // const fineController = new FineController(fineService);
 
             this.bookRouter = new BookRouter(bookController);
-            // this.userRouter = new UserRouter(userController);
+            this.userRouter = new UserRouter(userController);
             // this.requestRouter = new RequestRouter(requestController);
             // this.fineRouter = new FineRouter(fineController);
         }
@@ -46,9 +50,8 @@ export class BackendServer {
     async Run() {
         this.App.use(bodyParser.json());
         //TODO: think if i can fix the ! here
-        assert(this.bookRouter);
-        this.App.use("/books", this.bookRouter.Router);
-        // this.App.use("/user", this.userRouter.Router);
+        this.App.use("/books", this.bookRouter?.Router);
+        this.App.use("/user", this.userRouter?.Router);
         // this.App.use("/requests", this.requestRouter.Router);
         // this.App.use("/fines", this.fineRouter.Router);
         this.App.use(this.errorHandler);

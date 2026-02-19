@@ -1,20 +1,22 @@
+import { User, UserRole } from "@/models/User.js";
 import { ObjectId } from "mongodb"
 const GETExampleUserId = new ObjectId();
 const POSTExampleUserId = new ObjectId();
 const DELETEExampleUserId = new ObjectId();
 const PATCHExampleUserId = new ObjectId();
 
-const GETExampleUser = {
+const GETExampleUser: User = {
     "_id": GETExampleUserId,
-    "role": "member",
+    "role": UserRole.LibraryManager,
     "name": "GET Example",
     "age": 12.1,
-    "enrollment_date": "2012-04-23T18:25:43.511Z",
+    "enrollment_date": new Date(),
     "fines": [
         {
-            "total_cost": 10.1,
+            "_id": new ObjectId(),
             "daily_rate": 1.1,
-            "book_id": "1234"
+            "book_id": new ObjectId(),
+            "dateIssued": new Date()
         }
     ],
     "books": [
@@ -27,17 +29,18 @@ const GETExampleUser = {
     "email": "me@site.com"
 }
 
-const POSTExampleUser = {
+const POSTExampleUser: User = {
     "_id": POSTExampleUserId,
-    "role": "member",
+    "role": UserRole.LibraryManager,
     "name": "POST Example",
     "age": 12.1,
-    "enrollment_date": "2012-04-23T18:25:43.511Z",
+    "enrollment_date": new Date(),
     "fines": [
         {
-            "total_cost": 10.1,
+            "_id": new ObjectId(),
             "daily_rate": 1.1,
-            "book_id": "1234"
+            "book_id": new ObjectId(),
+            "dateIssued": new Date()
         }
     ],
     "books": [
@@ -50,17 +53,18 @@ const POSTExampleUser = {
     "email": "me@site.com"
 }
 
-const DELETEExampleUser = {
+const DELETEExampleUser: User = {
     "_id": DELETEExampleUserId,
-    "role": "member",
+    "role": UserRole.LibraryManager,
     "name": "DELETE Example",
     "age": 12.1,
-    "enrollment_date": "2012-04-23T18:25:43.511Z",
+    "enrollment_date": new Date(),
     "fines": [
         {
-            "total_cost": 10.1,
+            "_id": new ObjectId(),
             "daily_rate": 1.1,
-            "book_id": "1234"
+            "book_id": new ObjectId(),
+            "dateIssued": new Date()
         }
     ],
     "books": [
@@ -73,17 +77,18 @@ const DELETEExampleUser = {
     "email": "me@site.com"
 }
 
-const PATCHExampleUser = {
+const PATCHExampleUser: User = {
     "_id": PATCHExampleUserId,
-    "role": "member",
+    "role": UserRole.Admin,
     "name": "PATCH Example",
     "age": 12.1,
-    "enrollment_date": "2012-04-23T18:25:43.511Z",
+    "enrollment_date": new Date(),
     "fines": [
         {
-            "total_cost": 10.1,
+            "_id": new ObjectId(),
             "daily_rate": 1.1,
-            "book_id": "1234"
+            "book_id": new ObjectId(),
+            "dateIssued": new Date()
         }
     ],
     "books": [

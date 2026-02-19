@@ -1,11 +1,15 @@
+import { UserController } from "@/controllers/userController.js";
 import express, { Router } from "express"
-import * as UserController from "@controllers/userController.js"
+export class UserRouter {
+    public Router: Router;
+    private userController: UserController;
+    constructor(userController: UserController) {
+        this.Router = express.Router();
+        this.userController = userController;
+        this.Router.post("/", this.userController.validateCreateUser(), this.userController.createUser);
+        this.Router.delete("/:id", this.userController.validateDeleteUser(), this.userController.deleteUser);
+        this.Router.get("/:id", this.userController.validateGetUser(), this.userController.getUser);
+        this.Router.patch("/:id", this.userController.validatePatchUser(), this.userController.patchUser);
+    }
+}
 
-const router = express.Router();
-//TODO: check this to make sure () are needed
-router.post("/", UserController.validateCreateUser(), UserController.createUser);
-router.delete("/:id", UserController.validateDeleteUser(), UserController.deleteUser);
-router.get("/:id", UserController.validateGetUser(), UserController.getUser);
-router.patch("/:id", UserController.validatePatchUser(), UserController.patchUser);
-
-export default router;
