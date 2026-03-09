@@ -9,6 +9,9 @@ import { BookController } from '@controllers/bookController.js';
 import { UserService } from '@services/userService.js';
 import { UserController } from '@controllers/userController.js';
 import { UserRouter } from '@routes/userRouter.js';
+import { FineService } from '@/services/fineService.js';
+import { FineController } from '@/controllers/fineController.js';
+import { FineRouter } from '@/routes/fineRouter.js';
 
 export class BackendServer {
     public App: any;
@@ -16,7 +19,7 @@ export class BackendServer {
     private bookRouter?: BookRouter;
     private userRouter?: UserRouter;
     // private requestRouter?: RequestRouter;
-    // private fineRouter?: FineRouter;
+    private fineRouter?: FineRouter;
 
     //TODO: test this to see if it has expected behavior when there is no database connection
     async Setup() {
@@ -30,17 +33,17 @@ export class BackendServer {
             const bookService = new BookService(this.repository.BookCollection);
             const userService = new UserService(this.repository.UserCollection);
             // const requestService = new RequestService(this.repository.BookCollection);
-            // const fineService = new FineService(this.repository.UserCollection);
+            const fineService = new FineService(this.repository.UserCollection);
 
             const bookController = new BookController(bookService);
             const userController = new UserController(userService);
             // const requestController = new RequestController(userService);
-            // const fineController = new FineController(fineService);
+            const fineController = new FineController(fineService);
 
             this.bookRouter = new BookRouter(bookController);
             this.userRouter = new UserRouter(userController);
             // this.requestRouter = new RequestRouter(requestController);
-            // this.fineRouter = new FineRouter(fineController);
+            this.fineRouter = new FineRouter(fineController);
         }
         catch (err: any) {
             console.log({ error: err });
@@ -53,7 +56,7 @@ export class BackendServer {
         this.App.use("/books", this.bookRouter?.Router);
         this.App.use("/user", this.userRouter?.Router);
         // this.App.use("/requests", this.requestRouter.Router);
-        // this.App.use("/fines", this.fineRouter.Router);
+        this.App.use("/fines", this.fineRouter?.Router);
         this.App.use(this.errorHandler);
 
         const server = this.App.listen(PORT, () => {

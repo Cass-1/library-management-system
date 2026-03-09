@@ -4,10 +4,11 @@
 
 ## current commit
 
-- [ ] make book route object oriented
+- [ ] make fine route object oriented
 
 ## future commit tasks
 
+- [ ] **make request route oo**
 - [ ] decouple the database class from mongodb
 - [ ] work on the other todos and fixmes
 - [ ] setup scid for books (tho i think scid may not be needed)
@@ -15,8 +16,6 @@
 - [ ] make _ids optional for all endponts
 - [ ] update all controllers to have specific request types (like the create handlers do eg specifiy the parameter dictionary)
 - [ ] removed user schema so update db.test.ts
-- [ ] figure out if i want to seperate tests and test data or not
-- [ ] decide if i want to have controllers and services be classes
 
 ## maybe create an issue for
 

@@ -8,7 +8,7 @@ export class BookService {
     constructor(repository: Collection<Book>) {
         this.repository = repository;
     }
-
+    //TODO: make these in the form of createBook = async () {}
     async createBook(book: Book): Promise<InsertOneResult<Book>> {
         return await this.repository.insertOne(book);
     }
