@@ -1,9 +1,7 @@
 import { Collection, Db, MongoClient } from "mongodb";
-import { ATLAS_URI, DATABASE_NAME } from "@util/infisical.js";
 import { User } from "@/models/User.js";
 import { Book } from "@/models/Book.js";
 import { BookRequest } from "@/models/BookRequest.js";
-import assert from "node:assert";
 
 // https://www.mongodb.com/resources/languages/express-mongodb-rest-api-tutorial
 
