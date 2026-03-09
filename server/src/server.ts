@@ -1,5 +1,5 @@
 import { BackendServer } from "@util/BackendServer.js";
-import { InfisicalWrapper } from "@util/infisical.js";
+import { InfisicalWrapper } from "@/util/InfisicalWrapper.js";
 
 const infisical = new InfisicalWrapper();
 await infisical.Setup();
