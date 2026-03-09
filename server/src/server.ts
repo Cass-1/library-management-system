@@ -12,13 +12,18 @@ import { UserRouter } from '@routes/userRouter.js';
 import { FineService } from '@/services/fineService.js';
 import { FineController } from '@/controllers/fineController.js';
 import { FineRouter } from '@/routes/fineRouter.js';
+import { Collection } from 'mongodb';
+import { Book } from './models/Book.js';
+import { RequestRouter } from './routes/requestRouter.js';
+import { RequestController } from './controllers/requestController.js';
+import { RequestService } from './services/requestService.js';
 
 export class BackendServer {
     public App: any;
     public repository?: Database;
     private bookRouter?: BookRouter;
     private userRouter?: UserRouter;
-    // private requestRouter?: RequestRouter;
+    private requestRouter?: RequestRouter;
     private fineRouter?: FineRouter;
 
     //TODO: test this to see if it has expected behavior when there is no database connection
@@ -30,19 +35,19 @@ export class BackendServer {
 
             assert(this.repository.BookCollection);
             assert(this.repository.UserCollection);
-            const bookService = new BookService(this.repository.BookCollection);
+            const bookService = new BookService(this.repository.BookCollection as Collection<Book>);
             const userService = new UserService(this.repository.UserCollection);
-            // const requestService = new RequestService(this.repository.BookCollection);
+            const requestService = new RequestService(this.repository.BookCollection);
             const fineService = new FineService(this.repository.UserCollection);
 
             const bookController = new BookController(bookService);
             const userController = new UserController(userService);
-            // const requestController = new RequestController(userService);
+            const requestController = new RequestController(requestService);
             const fineController = new FineController(fineService);
 
             this.bookRouter = new BookRouter(bookController);
             this.userRouter = new UserRouter(userController);
-            // this.requestRouter = new RequestRouter(requestController);
+            this.requestRouter = new RequestRouter(requestController);
             this.fineRouter = new FineRouter(fineController);
         }
         catch (err: any) {
@@ -55,7 +60,7 @@ export class BackendServer {
         //TODO: think if i can fix the ! here
         this.App.use("/books", this.bookRouter?.Router);
         this.App.use("/user", this.userRouter?.Router);
-        // this.App.use("/requests", this.requestRouter.Router);
+        this.App.use("/requests", this.requestRouter?.Router);
         this.App.use("/fines", this.fineRouter?.Router);
         this.App.use(this.errorHandler);
 

@@ -1,12 +1,19 @@
-import express from "express"
-import * as RequestController from "@controllers/requestController.js"
+import { RequestController } from "@/controllers/requestController.js";
+import express, { Router } from "express"
 
 const router = express.Router();
 
-router.post("/:book_id", RequestController.validateCreateRequest(), RequestController.createRequest);
-router.delete("/:book_id/:request_id", RequestController.validateDeleteRequest(), RequestController.deleteRequest);
-router.get("/:book_id/:request_id", RequestController.validateGetRequest(), RequestController.getRequest);
+export class RequestRouter {
+    public Router: Router;
+    private requestController: RequestController;
+    constructor(requestController: RequestController) {
+        this.requestController = requestController;
+        this.Router = express.Router();
+        this.Router.post("/:book_id", this.requestController.validateCreateRequest(), this.requestController.createRequest);
+        this.Router.delete("/:book_id/:request_id", this.requestController.validateDeleteRequest(), this.requestController.deleteRequest);
+        this.Router.get("/:book_id/:request_id", this.requestController.validateGetRequest(), this.requestController.getRequest);
 
-router.get("/:book_id", RequestController.validateGetAllBookRequests(), RequestController.getAllBookRequests);
-router.delete("/:book_id", RequestController.validateDeleteAllBookRequests(), RequestController.deleteAllBookRequests);
-export default router;
+        this.Router.get("/:book_id", this.requestController.validateGetAllBookRequests(), this.requestController.getAllBookRequests);
+        this.Router.delete("/:book_id", this.requestController.validateDeleteAllBookRequests(), this.requestController.deleteAllBookRequests);
+    }
+}

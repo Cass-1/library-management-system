@@ -1,26 +1,34 @@
+import { Book } from "@/models/Book.js";
 import { BookRequest } from "@/models/BookRequest.js";
-import { bookCollection } from "@/util/db.js";
-import { ObjectId } from "mongodb";
+import { Collection, ObjectId } from "mongodb";
 
-export async function createRequest(request: BookRequest) {
-    return await bookCollection.insertOne(request);
+export class RequestService {
+    private repository;
+
+    constructor(repository: Collection<Book | BookRequest>) {
+        this.repository = repository;
+    }
+    createRequest = async (request: BookRequest) => {
+        return await this.repository.insertOne(request);
+    }
+
+    deleteRequest = async (id: string) => {
+        const objId = new ObjectId(id);
+        return await this.repository.deleteOne({ _id: objId });
+    }
+
+    getRequest = async (id: string): Promise<BookRequest | null> => {
+        const objId = new ObjectId(id);
+        return await this.repository.findOne({ _id: objId }) as BookRequest;
+    }
+
+    getAllBookRequests = async (id: string) => {
+        const results = await this.repository.find({ bookId: new ObjectId(id) });
+        return results.toArray();
+    }
+
+    deleteAllBookRequests = async (id: string) => {
+        return await this.repository.deleteMany({ bookId: new ObjectId(id) });
+    }
 }
 
-export async function deleteRequest(id: string) {
-    const objId = new ObjectId(id);
-    return await bookCollection.deleteOne({ _id: objId });
-}
-
-export async function getRequest(id: string): Promise<BookRequest | null> {
-    const objId = new ObjectId(id);
-    return await bookCollection.findOne({ _id: objId }) as BookRequest;
-}
-
-export async function getAllBookRequests(id: string) {
-    const results = await bookCollection.find({ bookId: new ObjectId(id) });
-    return results.toArray();
-}
-
-export async function deleteAllBookRequests(id: string) {
-    return await bookCollection.deleteMany({ bookId: new ObjectId(id) });
-}

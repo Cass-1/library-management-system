@@ -12,7 +12,7 @@ export class Database {
     private databaseName: string
     private mongoDB?: Db;
     public UserCollection?: Collection<User>;
-    public BookCollection?: Collection<Book>;
+    public BookCollection?: Collection<Book | BookRequest>;
     constructor(atlasUri: string, databaseName: string) {
         this.client = new MongoClient(atlasUri);
         this.databaseName = databaseName;
