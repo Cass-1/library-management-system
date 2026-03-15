@@ -6,13 +6,14 @@
 
 ## current commit task
 
--
+- write unit tests for infisical to test if it behaves properly if fails properly
+  - [ ] should i have a set of variables in infisical for a TEST environment?
 
 ## future commit tasks
 
 ### priority
 
-- [ ] write unit tests for infisical and backend server to ensure that when environment variables are missing the program responds as intended
+- [ ] write unit tests for backend server to ensure that when environment variables are missing the program responds as intended
 - [ ] work on the other todos and fixmes
 - [ ] endpoints shouldn't error when resource is not found, they instead should return empty or undefined
 - [ ] make _ids optional for all endponts
