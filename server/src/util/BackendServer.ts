@@ -15,7 +15,7 @@ import { Book } from '@models/Book.js';
 import { RequestRouter } from '@routes/requestRouter.js';
 import { RequestController } from '@controllers/requestController.js';
 import { RequestService } from '@services/requestService.js';
-import { Database } from '@util/db.js';
+import { Database } from '@/util/Database.js';
 import { EnvironmentVariables } from '@/util/InfisicalWrapper.js';
 
 export class BackendServer {
