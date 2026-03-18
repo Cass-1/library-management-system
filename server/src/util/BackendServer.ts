@@ -41,8 +41,6 @@ export class BackendServer {
             this.repository = new Database(this.envVariables.ATLAS_URI, this.envVariables.DATABASE_NAME);
             await this.repository.Connect();
 
-            assert(this.repository.BookCollection);
-            assert(this.repository.UserCollection);
             const bookService = new BookService(this.repository.BookCollection as Collection<Book>);
             const userService = new UserService(this.repository.UserCollection);
             const requestService = new RequestService(this.repository.BookCollection);

@@ -1,4 +1,4 @@
-import { ValidationChainError } from "@util/customErrors.js";
+import { DatabaseConnectionError, ValidationChainError } from "@util/customErrors.js";
 import { Response } from 'express';
 import { MongoServerError } from "mongodb";
 
@@ -13,6 +13,11 @@ export function genericRouteErrorHandler(err: unknown, res: Response) {
         res.status(400).json({
             message: "Mongodb Server Error",
             error: err
+        })
+    }
+    else if (err instanceof DatabaseConnectionError) {
+        res.status(503).json({
+            message: "Failed to connect to database"
         })
     }
     else if (err instanceof Error) {
