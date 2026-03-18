@@ -98,5 +98,10 @@ describe("Test proper failure", () => {
 });
 
 describe("test successful behavior", () => {
-
+    test("proper retrieval of infisical secrets", async () => {
+        const infisical = new InfisicalWrapper();
+        await infisical.Setup();
+        const port = (await infisical.GetVariables()).PORT;
+        expect(port).toBe("3000");
+    })
 });
