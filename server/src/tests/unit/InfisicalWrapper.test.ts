@@ -8,6 +8,11 @@ describe("Test proper failure", () => {
         vi.resetModules();
         process.env = { ...environment };
     });
+
+    afterAll(() => {
+        vi.resetModules();
+        process.env = { ...environment };
+    })
     test("failure due to missing Machine Id environment variable", async () => {
         delete process.env.INFISICAL_MACHINE_IDENTITY_CLIENT_ID;
 
